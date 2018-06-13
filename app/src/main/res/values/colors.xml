@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="darkBlueGrey">#343F4B</color>
+    <color name="darkBrown">#8E7664</color>
+    <color name="lightBrown">#b8977e</color>
+
+    <!-- Gray Scale -->
+    <color name="darkest">#1F2D3D</color>
+    <color name="dark">#5A6978</color>
+    <color name="medium">#969FAA</color>
+    <color name="light">#F9FAFC</color>
+    <color name="lightest">#FFFFFF</color>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Shop Background Image -->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/shop_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@color/lightBrown"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_vertical"
+            android:layout_alignLeft="@+id/shop_cover_image"
+            android:layout_alignRight="@+id/shop_cover_image"
+            android:layout_alignBottom="@+id/shop_cover_image">
+
+            <LinearLayout
+                android:id="@+id/shop_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/CenterJustifyLinearLayout">
+                <!-- Shop Name -->
+                <TextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Title.Light"
+                    android:gravity="center_horizontal"
+                    android:text="Shop Name"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shop_description_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:theme="@style/CenterJustifyLinearLayout"
+                android:layout_below="@+id/shop_name_container">
+                <!-- Shop Description -->
+                <TextView
+                    android:id="@+id/shop_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="@style/AppTheme.Caption.Light"
+                    android:text="Description selfanas asfasdf asdfasdf asdfasdf asdf asdf jwolasdf esijasfasf asdfas amfolwisejmf.....!"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>

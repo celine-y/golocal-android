@@ -1,0 +1,84 @@
+package yau.celine.golocal.utils;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import yau.celine.golocal.LoginActivity;
+
+/**
+ * Created by Celine on 2018-06-11.
+ */
+
+public class SharedPrefManager {
+    private static final String SHARED_PREF_NAME ="golocalsharedpref";
+    private static final String KEY_TOKEN = "keytoken";
+    private static final String KEY_ID = "keyid";
+
+    private static SharedPrefManager mInstance;
+    private static Context mCtx;
+
+    private SharedPrefManager(Context context) {
+        mCtx = context;
+    }
+
+    public static synchronized SharedPrefManager getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new SharedPrefManager(context);
+        }
+        return mInstance;
+    }
+
+    /**
+     * Let the user login and store user data in shared preferences
+     * @param user
+     */
+    public void userLogin(User user) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_ID, user.getId());
+        editor.putString(KEY_TOKEN, user.getToken());
+        editor.apply();
+    }
+
+    /**
+     * Check if user is logged in
+     * @return
+     */
+    public boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_TOKEN, null) != null;
+    }
+
+    /**
+     * Get the logged in user
+     * @return
+     */
+    public User getUser() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        return new User(
+                sharedPreferences.getInt(KEY_ID, -1),
+                sharedPreferences.getString(KEY_TOKEN, null)
+        );
+    }
+
+    public String getKeyToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+
+        return sharedPreferences.getString(KEY_TOKEN, null);
+    }
+
+    public void logout(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
+    }
+
+}

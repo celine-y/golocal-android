@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single"
+        >
+        <item
+            android:id="@+id/nav_search"
+            android:title="@string/fragment_search"/>
+        <item
+            android:id="@+id/nav_current_order"
+            android:title="@string/fragment_current_order"/>
+        <item
+            android:id="@+id/nav_history"
+            android:title="@string/fragment_history"/>
+        <item
+            android:id="@+id/nav_rewards"
+            android:title="@string/fragment_rewards"/>
+        <item
+            android:id="@+id/nav_payment"
+            android:title="@string/fragment_payment"/>
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/fragment_settings"/>
+    </group>
+
+</menu>

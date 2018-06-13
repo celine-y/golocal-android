@@ -1,0 +1,65 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/darkBlueGrey</item>
+        <item name="colorPrimaryDark">@color/darkBrown</item>
+        <item name="colorAccent">@color/lightBrown</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:colorBackground">@color/lightBrown</item>
+        <item name="android:color">@color/lightest</item>
+    </style>
+
+    <style name="AppTheme.Header" parent="@style/Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/darkest</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/header1</item>
+    </style>
+
+    <style name="AppTheme.Title" parent="@style/Base.TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/darkest</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="AppTheme.Title.Light" parent="@style/Base.TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/lightest</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="AppTheme.Caption" parent="@style/Base.TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/darkest</item>
+    </style>
+
+    <style name="AppTheme.Caption.Light" parent="Base.TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/lightest</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="@style/AppTheme">
+        <item name="android:textColor">@color/lightest</item>
+        <item name="android:background">@color/darkBlueGrey</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CenterJustifyLinearLayout" >
+        <item name="android:paddingLeft">@dimen/padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/padding_horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+</resources>
