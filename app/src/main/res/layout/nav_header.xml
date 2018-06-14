@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_name"
         android:layout_toRightOf="@+id/profile_thumbnail"
-        android:drawableLeft="@drawable/ic_favorite_white"
+        android:drawableLeft="@drawable/ic_favorite"
         android:textSize="@dimen/p1"/>
 
     <!-- Photo Count -->

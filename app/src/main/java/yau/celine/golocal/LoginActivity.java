@@ -39,6 +39,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideProgress();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -99,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
-                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                hideProgress();
                 if (response.has("key")) {
                     try {
                         User user = new User(
@@ -124,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: "+error.getMessage());
-                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                hideProgress();
                 Toast.makeText(getApplicationContext(), "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
             }
         }) {
@@ -137,6 +143,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(jsonObjReq);
+    }
+
+    private void hideProgress(){
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
     }
 }
 
