@@ -13,12 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import yau.celine.golocal.utils.IMainActivity;
+
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IMainActivity {
     private DrawerLayout drawer;
 
     private static final String TAG = "BaseActivity";
     private TextView mToolbarTitle;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -26,16 +29,16 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.nav_drawer_base_layout);
 
 //        Set up toolbar
-        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mToolbarTitle = findViewById(R.id.toolbar_title);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+//        Set up drawer
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open,
+                this, drawer, mToolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -109,7 +112,8 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void setToolbarTitle(String fragmentTitle) {
-        mToolbarTitle.setText(fragmentTitle);
+        mToolbar.setTitle(fragmentTitle);
+//        mToolbarTitle.setText(fragmentTitle);
     }
 
     @Override

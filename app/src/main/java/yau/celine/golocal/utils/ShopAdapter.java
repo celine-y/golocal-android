@@ -13,7 +13,6 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
 
-import yau.celine.golocal.OnShopClickListener;
 import yau.celine.golocal.R;
 import yau.celine.golocal.app.AppController;
 

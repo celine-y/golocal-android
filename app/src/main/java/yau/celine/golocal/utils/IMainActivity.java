@@ -1,4 +1,4 @@
-package yau.celine.golocal;
+package yau.celine.golocal.utils;
 
 /**
  * Created by Celine on 2018-06-13.

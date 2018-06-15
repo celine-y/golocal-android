@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/item_card_size"
+        android:layout_height="@dimen/item_card_size"
+        app:cardCornerRadius="0dp"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/item_image"
+                android:layout_width="@dimen/item_image_size"
+                android:layout_height="@dimen/item_image_size"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:src="@color/cardview_dark_background"/>
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Item Name"
+                android:layout_below="@+id/item_image"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/small_margin"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="@dimen/p3"
+                android:autoSizeMaxTextSize="@dimen/p1"
+                />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

@@ -5,6 +5,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    <!-- Shop Header -->
+    <RelativeLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <!-- Shop Background Image -->
         <com.android.volley.toolbox.NetworkImageView
@@ -56,6 +61,18 @@
 
         </RelativeLayout>
 
+
+    </RelativeLayout>
+
+    <!-- Shop Body -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/header_container"
+        android:scrollbars="none">
+    </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 

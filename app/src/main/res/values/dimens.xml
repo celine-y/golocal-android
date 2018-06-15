@@ -13,6 +13,7 @@
     <dimen name="header1">20dp</dimen>
     <dimen name="p1">15dip</dimen>
     <dimen name="p2">13dip</dimen>
+    <dimen name="p3">10dip</dimen>
 
     <!-- Dimen related to extra layout stylings -->
     <dimen name="divider_height">1dp</dimen>
@@ -20,4 +21,9 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Dimen related to menu items -->
+    <dimen name="small_margin">3dp</dimen>
+    <dimen name="item_image_size">120dp</dimen>
+    <dimen name="item_card_size">150dp</dimen>
 </resources>

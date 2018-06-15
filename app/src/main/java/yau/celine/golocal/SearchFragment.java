@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import yau.celine.golocal.utils.IMainActivity;
+import yau.celine.golocal.utils.OnShopClickListener;
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.SharedPrefManager;
 import yau.celine.golocal.utils.ShopAdapter;
@@ -37,7 +39,7 @@ import yau.celine.golocal.utils.URLs;
  * Created by Celine on 2018-06-13.
  */
 
-public class SearchFragment extends Fragment implements OnShopClickListener{
+public class SearchFragment extends Fragment implements OnShopClickListener {
     private View view;
 
     private static final String TAG = "SearchFragment";
@@ -67,10 +69,11 @@ public class SearchFragment extends Fragment implements OnShopClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_search, container, false);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        showShopListRecycler();
-
+            showShopListRecycler();
+        }
         return view;
     }
 
