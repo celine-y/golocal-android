@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,13 +43,17 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
 
         holder.itemName.setText(singleItem.getName());
 
-
-       /* Glide.with(mContext)
-                .asBitmap()
-                .load(singleItem.getImageURL())
+        RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .error(R.drawable.bg)
-                .into(holder.itemImage);*/
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+
+       Glide.with(mContext)
+               .load(singleItem.getImageUrl())
+               .apply(options)
+               .into(holder.itemImage);
     }
 
     @Override

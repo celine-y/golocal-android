@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -19,7 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +53,7 @@ public class ShopFragment extends Fragment {
 
     private int shopId = -1;
 
-    private NetworkImageView shopCoverImage;
+    private ImageView shopCoverImage;
     private TextView shopTextViewName;
     private TextView shopTextViewDescription;
 
@@ -58,6 +61,7 @@ public class ShopFragment extends Fragment {
     private CategoryDataAdapter mCategoryAdapter;
 
     private ArrayList<CategoryDataModel> menuCategoryList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +95,7 @@ public class ShopFragment extends Fragment {
 //        connect front end elements to variables
         shopTextViewName = view.findViewById(R.id.shop_name);
         shopTextViewDescription = view.findViewById(R.id.shop_description);
+        shopCoverImage = view.findViewById(R.id.shop_cover_image);
 
         menuCategoryList = new ArrayList<>();
 //        set recycler view for categories
@@ -122,6 +127,16 @@ public class ShopFragment extends Fragment {
                             try {
                                 shopTextViewName.setText(response.getString("name"));
                                 shopTextViewDescription.setText(response.getString("description"));
+//                                load cover image
+                                RequestOptions options = new RequestOptions()
+                                        .centerCrop()
+                                        .placeholder(R.drawable.ic_launcher_background)
+                                        .error(R.drawable.ic_launcher_background)
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+                                Glide.with(getContext())
+                                        .load(response.getString("cover_image"))
+                                        .apply(options)
+                                        .into(shopCoverImage);
                                 JSONArray categorySet = response.getJSONArray("category_set");
                                 if (categorySet.length() > 0) {
 //                                get categories

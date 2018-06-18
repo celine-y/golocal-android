@@ -7,6 +7,7 @@ public class MenuItem {
     private String shopUrl;
     private double price;
     private String categoryUrl;
+    private String imageUrl;
 
     public MenuItem() {}
 
@@ -73,5 +74,13 @@ public class MenuItem {
 
     public void setCategoryUrl(String categoryUrl){
         this.categoryUrl = categoryUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
