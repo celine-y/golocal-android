@@ -8,7 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import yau.celine.golocal.utils.IMainActivity;
 import yau.celine.golocal.utils.MenuItem;
@@ -21,7 +26,9 @@ public class ItemFragment extends Fragment {
     private IMainActivity mIMainActivity;
     private MenuItem item;
 
+    private ImageView itemImage;
     private TextView itemName;
+    private TextView itemDescription;
 
     @Override
     public void onAttach(Context context) {
@@ -55,8 +62,21 @@ public class ItemFragment extends Fragment {
     }
 
     private void showItemDetails(){
+        itemImage = view.findViewById(R.id.item_image);
         itemName = view.findViewById(R.id.item_name);
+        itemDescription = view.findViewById(R.id.item_description);
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(getContext())
+                .load(item.getImageUrl())
+                .apply(options)
+                .into(itemImage);
 
         itemName.setText(item.getName());
+        itemDescription.setText(item.getDescription());
     }
 }
