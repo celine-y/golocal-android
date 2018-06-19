@@ -12,14 +12,21 @@ import java.util.ArrayList;
 
 import yau.celine.golocal.R;
 
-public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapter.CategoryRowHolder> {
+public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapter.CategoryRowHolder>
+implements OnShopClickListener {
 
     private ArrayList<CategoryDataModel> categoryDataList;
     private Context mContext;
+    private OnItemClickListener mListener;
+    private ItemListDataAdapter mItemListAdapter;
 
     public CategoryDataAdapter(Context context, ArrayList<CategoryDataModel> categoryDataList) {
         this.categoryDataList = categoryDataList;
         this.mContext = context;
+    }
+
+    public void setListener (OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -38,23 +45,24 @@ public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapte
 
         categoryRowHolder.categoryName.setText(sectionName);
 
-        ItemListDataAdapter itemListDataAdapter = new ItemListDataAdapter(mContext, singleMenuItems);
+
+        mItemListAdapter = new ItemListDataAdapter(mContext, singleMenuItems);
+
+        mItemListAdapter.setListener(mListener);
 
         categoryRowHolder.recycler_view_item_list.setHasFixedSize(true);
         categoryRowHolder.recycler_view_item_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        categoryRowHolder.recycler_view_item_list.setAdapter(itemListDataAdapter);
-
-       /* Glide.with(mContext)
-                .load(feedItem.getImageURL())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .error(R.drawable.bg)
-                .into(feedListRowHolder.thumbView);*/
+        categoryRowHolder.recycler_view_item_list.setAdapter(mItemListAdapter);
     }
 
     @Override
     public int getItemCount() {
         return (null != categoryDataList ? categoryDataList.size() : 0);
+    }
+
+    @Override
+    public void onFragmentClick(int position) {
+
     }
 
     public class CategoryRowHolder extends RecyclerView.ViewHolder {
@@ -67,7 +75,6 @@ public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapte
 
             this.categoryName = view.findViewById(R.id.category_name);
             this.recycler_view_item_list = view.findViewById(R.id.recycler_view_item_list);
-
 
         }
 

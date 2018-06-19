@@ -1,6 +1,9 @@
 package yau.celine.golocal.utils;
 
-public class MenuItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class MenuItem implements Parcelable {
     private int id;
     private String name;
     private String description;
@@ -83,4 +86,47 @@ public class MenuItem {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+//    Parcel
+    public MenuItem(Parcel in){
+//        read and set values from parcel
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        shopUrl = in.readString();
+        price = in.readDouble();
+        imageUrl = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+//        write properties to parcel
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(shopUrl);
+        dest.writeDouble(price);
+        dest.writeString(imageUrl);
+    }
+
+//    CREATOR - used when un-parceling (creating object)
+    public static final Parcelable.Creator<MenuItem> CREATOR =
+        new Parcelable.Creator<MenuItem>(){
+
+        @Override
+        public MenuItem createFromParcel(Parcel parcel) {
+            return new MenuItem(parcel);
+        }
+
+        @Override
+        public MenuItem[] newArray(int i) {
+            return new MenuItem[0];
+        }
+    };
+
 }

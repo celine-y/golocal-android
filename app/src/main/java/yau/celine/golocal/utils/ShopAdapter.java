@@ -73,7 +73,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onShopClick(position);
+                            mListener.onFragmentClick(position);
                         }
                     }
                 }

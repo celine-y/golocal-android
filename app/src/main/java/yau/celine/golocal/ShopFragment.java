@@ -2,6 +2,7 @@ package yau.celine.golocal;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,6 +38,7 @@ import yau.celine.golocal.utils.CategoryDataAdapter;
 import yau.celine.golocal.utils.CategoryDataModel;
 import yau.celine.golocal.utils.IMainActivity;
 import yau.celine.golocal.utils.MenuItem;
+import yau.celine.golocal.utils.OnItemClickListener;
 import yau.celine.golocal.utils.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
 
@@ -44,7 +46,7 @@ import yau.celine.golocal.utils.URLs;
  * Created by Celine on 2018-06-13.
  */
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements OnItemClickListener {
     private static final String TAG = "ShopFragment";
 
     private IMainActivity mIMainActivity;
@@ -66,6 +68,7 @@ public class ShopFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mIMainActivity.setToolbarTitle(getTag());
 
         Bundle bundle = this.getArguments();
@@ -77,17 +80,18 @@ public class ShopFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mIMainActivity = (BaseActivity) getActivity();
+        mIMainActivity = (IMainActivity) getActivity();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_shop, container, false);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_shop, container, false);
 
 //        Set shop details
-        getShopDetails();
+            getShopDetails();
+        }
         return view;
     }
 
@@ -107,6 +111,7 @@ public class ShopFragment extends Fragment {
 //        set adapter for mCategoryRecyclerView
         mCategoryAdapter = new CategoryDataAdapter(getContext(), menuCategoryList);
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
+        mCategoryAdapter.setListener(this);
 
 
         if(shopId >= 0){
@@ -156,6 +161,7 @@ public class ShopFragment extends Fragment {
                                             menuItem.setName(item.getString("name"));
                                             menuItem.setDescription(item.getString("description"));
                                             menuItem.setPrice(item.getDouble("price"));
+                                            menuItem.setImageUrl(item.getString("photo"));
 
                                             itemList.add(menuItem);
                                         }
@@ -190,5 +196,10 @@ public class ShopFragment extends Fragment {
             }
         };
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(shopReq);
+    }
+
+    @Override
+    public void onFragmentClick(Parcelable object) {
+        mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), object);
     }
 }

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,6 +23,12 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
     private ArrayList<MenuItem> itemsList;
     private Context mContext;
 
+    private OnItemClickListener mListener;
+
+    public void setListener(OnItemClickListener listener){
+        mListener = listener;
+    }
+
     public ItemListDataAdapter(Context context, ArrayList<MenuItem> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
@@ -31,6 +36,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
 
     @Override
     public MenuItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        Log.d(TAG, "onCreateViewHolder: called");
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item, null);
         MenuItemRowHolder mh = new MenuItemRowHolder(v);
         return mh;
@@ -41,7 +47,9 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
         Log.d(TAG, "onBindViewHolder: called");
         MenuItem singleItem = itemsList.get(i);
 
+
         holder.itemName.setText(singleItem.getName());
+        holder.item = singleItem;
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -65,6 +73,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
 
         protected TextView itemName;
         protected CircleImageView itemImage;
+        protected MenuItem item;
 
 
         public MenuItemRowHolder(View view) {
@@ -77,8 +86,8 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Toast.makeText(v.getContext(), itemName.getText(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "MenuItemRowHolder.onClick: called. "+item);
+                    mListener.onFragmentClick(item);
                 }
             });
 

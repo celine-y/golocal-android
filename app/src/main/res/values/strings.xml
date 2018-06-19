@@ -31,6 +31,7 @@
     <string name="fragment_settings">Settings</string>
     <!-- Other fragments -->
     <string name="fragment_shop_details">Shop Details</string>
+    <string name="fragment_item_details">Item Details</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

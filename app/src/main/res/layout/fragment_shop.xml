@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/header_container"
+        android:background="@color/lightest"
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
 

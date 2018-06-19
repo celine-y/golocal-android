@@ -1,5 +1,5 @@
 package yau.celine.golocal.utils;
 
 public interface OnShopClickListener {
-    void onShopClick(int position);
+    void onFragmentClick(int position);
 }

@@ -1,6 +1,7 @@
 package yau.celine.golocal;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import yau.celine.golocal.utils.IMainActivity;
 
@@ -20,7 +20,6 @@ public class BaseActivity extends AppCompatActivity
     private DrawerLayout drawer;
 
     private static final String TAG = "BaseActivity";
-    private TextView mToolbarTitle;
     private Toolbar mToolbar;
 
     @Override
@@ -29,7 +28,6 @@ public class BaseActivity extends AppCompatActivity
         setContentView(R.layout.nav_drawer_base_layout);
 
 //        Set up toolbar
-        mToolbarTitle = findViewById(R.id.toolbar_title);
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 //        Set up drawer
@@ -105,6 +103,22 @@ public class BaseActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    private void doFragmentTransaction(Fragment fragment, String tag, boolean addToBackStack, Parcelable parcelable){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(getString(R.string.intent_message), parcelable);
+        fragment.setArguments(bundle);
+
+        transaction.replace(R.id.fragment_container, fragment, tag);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+        }
+
+        transaction.commit();
+    }
+
     private void init(){
         SearchFragment fragment = new SearchFragment();
         doFragmentTransaction(fragment, getString(R.string.fragment_search), false, "");
@@ -113,7 +127,6 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public void setToolbarTitle(String fragmentTitle) {
         mToolbar.setTitle(fragmentTitle);
-//        mToolbarTitle.setText(fragmentTitle);
     }
 
     @Override
@@ -121,6 +134,14 @@ public class BaseActivity extends AppCompatActivity
         if(fragmentTag.equals(getString(R.string.fragment_shop_details))) {
             ShopFragment fragment = new ShopFragment();
             doFragmentTransaction(fragment, fragmentTag, true, message);
+        }
+    }
+
+    @Override
+    public void inflateFragment(String fragmentTag, Parcelable object) {
+        if (fragmentTag.equals(getString(R.string.fragment_item_details))) {
+            ItemFragment fragment = new ItemFragment();
+            doFragmentTransaction(fragment, fragmentTag, true, object);
         }
     }
 }

@@ -40,9 +40,9 @@ import yau.celine.golocal.utils.URLs;
  */
 
 public class SearchFragment extends Fragment implements OnShopClickListener {
-    private View view;
-
     private static final String TAG = "SearchFragment";
+
+    private View view;
 
     private RelativeLayout loadingPanel;
 
@@ -164,7 +164,7 @@ public class SearchFragment extends Fragment implements OnShopClickListener {
     }
 
     @Override
-    public void onShopClick(int position) {
+    public void onFragmentClick(int position) {
         String shop_id = String.valueOf(mShopList.get(position).getId());
         mIMainActivity.inflateFragment(getString(R.string.fragment_shop_details), shop_id);
     }
