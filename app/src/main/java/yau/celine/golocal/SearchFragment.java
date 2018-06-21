@@ -120,6 +120,7 @@ public class SearchFragment extends Fragment implements OnShopClickListener {
                                 shop.setId(obj.getInt("id"));
                                 shop.setName(obj.getString("name"));
                                 shop.setAddress(obj.getString("location"));
+                                shop.setThumbnailUrl(obj.getString("cover_image"));
 //                                TODO: get shop rating, get thumbnail
 
 //                                add shop to shop array

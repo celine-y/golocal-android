@@ -2,32 +2,36 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_no_margin">1dp</dimen>
 
     <!-- Dimens related to padding -->
     <dimen name="padding_horizontal">16dp</dimen>
-    <dimen name="padding_vertical">30dp</dimen>
+    <dimen name="padding_vertical">32dp</dimen>
+
+    <!-- Dimens related to margin -->
+    <dimen name="margin_v_textviews">24dp</dimen>
 
     <!-- Image related sizing -->
     <dimen name="cover_image_height">200dp</dimen>
-
+    <dimen name="thumbnail_size">80dp</dimen>
 
     <!-- Dimens related to font size -->
-    <dimen name="title">30dp</dimen>
-    <dimen name="header1">20dp</dimen>
-    <dimen name="p1">15dip</dimen>
-    <dimen name="p2">13dip</dimen>
-    <dimen name="p3">10dip</dimen>
+    <dimen name="title">32dp</dimen>
+    <dimen name="header1">24dp</dimen>
+    <dimen name="p1">16dp</dimen>
+    <dimen name="p2">12dp</dimen>
+    <dimen name="p3">8dp</dimen>
 
-    <!-- Dimen related to extra layout stylings -->
+    <!-- Dimen related to extra layout style  -->
     <dimen name="divider_height">1dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_right_image">16dp</dimen>
 
     <!-- Dimen related to menu items -->
     <dimen name="small_margin">3dp</dimen>
     <dimen name="item_image_size">120dp</dimen>
-    <dimen name="item_card_size">150dp</dimen>
+    <dimen name="item_card_size">152dp</dimen>
 </resources>

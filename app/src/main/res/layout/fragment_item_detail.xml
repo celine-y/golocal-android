@@ -14,46 +14,58 @@
             android:scaleType="centerCrop"
             android:background="@color/lightBrown"
             />
-
-        <!-- Details -->
-        <TextView
-            android:id="@+id/item_name"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/AppTheme.Header.Color"
             android:layout_below="@+id/item_image"
-            android:text="Menu Item"/>
-        <TextView
-            android:id="@+id/item_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/AppTheme.Caption"
-            android:layout_below="@id/item_name"
-            android:text="Shop Name"/>
-
-        <TextView
-            android:id="@+id/item_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/AppTheme.Body"
-            android:layout_below="@+id/item_shop"
-            android:text="Description"/>
-
-        <TextView
-            android:id="@+id/caption_request"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_description"
-            android:textAppearance="@style/AppTheme.Header2"
-            android:text="@string/requests"/>
-        <EditText
-            android:id="@+id/request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/AppTheme.Body"
-            android:layout_below="@+id/caption_request"
-            android:hint="@string/prompt_customization"/>
-
+            android:theme="@style/PaddedRelativeLayout">
+        <!-- Details Wrapper -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/NoPaddingLayout">
+                <!-- Item Name -->
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Header.Color"
+                    android:text="Menu Item"/>
+                <!-- Shop Name -->
+                <TextView
+                    android:id="@+id/item_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Caption"
+                    android:layout_below="@id/item_name"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:text="Shop Name"/>
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/item_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Body"
+                    android:layout_below="@+id/item_shop"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:text="Description"/>
+                <!-- Request -->
+                <TextView
+                    android:id="@+id/caption_request"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_description"
+                    android:textAppearance="@style/AppTheme.Header2"
+                    android:text="@string/requests"/>
+                <EditText
+                    android:id="@+id/request"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Body"
+                    android:layout_below="@+id/caption_request"
+                    android:hint="@string/prompt_customization"/>
+            </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

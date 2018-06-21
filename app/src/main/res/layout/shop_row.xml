@@ -5,12 +5,12 @@
     android:padding="@dimen/activity_vertical_margin"
     android:background="@color/light">
     <!-- Thumbnail Image -->
-    <com.android.volley.toolbox.NetworkImageView
+    <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/thumbnail_size"
+        android:layout_height="@dimen/thumbnail_size"
         android:background="@color/lightBrown"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/margin_right_image"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"/>
 
