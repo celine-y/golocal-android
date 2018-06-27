@@ -34,4 +34,8 @@
     <dimen name="small_margin">3dp</dimen>
     <dimen name="item_image_size">120dp</dimen>
     <dimen name="item_card_size">152dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="small_elevation">2dp</dimen>
+    <dimen name="big_elevation">10dp</dimen>
 </resources>

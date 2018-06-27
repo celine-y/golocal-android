@@ -26,6 +26,9 @@
         android:id="@+id/group2"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_profile"
+            android:title="@string/fragment_profile"/>
+        <item
             android:id="@+id/nav_settings"
             android:title="@string/fragment_settings"/>
     </group>

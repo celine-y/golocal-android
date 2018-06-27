@@ -8,17 +8,33 @@
         layout="@layout/layout_profile"/>
 
     <RelativeLayout
+        android:id="@+id/profile_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_header">
 
         <!-- Favourites -->
-        <include
-            android:id="@+id/favorites"
-            layout="@layout/category_section"/>
+        <!--<include-->
+            <!--android:id="@+id/favorites"-->
+            <!--layout="@layout/category_section"/>-->
 
         <!-- Photos -->
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_details">
+
+        <!-- Logout -->
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:layout_marginTop="41dp"
+            style="@style/Widget.AppCompat.Button.Colored" />
     </RelativeLayout>
 
 

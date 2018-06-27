@@ -7,28 +7,26 @@ public class MenuItem implements Parcelable {
     private int id;
     private String name;
     private String description;
-    private String shopUrl;
+    private int shopId;
     private double price;
-    private String categoryUrl;
     private String imageUrl;
 
     public MenuItem() {}
 
-    public MenuItem(int id, String name, String description, String shopUrl, double price){
+    public MenuItem(int id, String name, String description, int shopId, double price){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.shopUrl = shopUrl;
+        this.shopId = shopId;
         this.price = price;
     }
 
-    public MenuItem(int id, String name, String description, String shopUrl, double price, String categoryUrl){
+    public MenuItem(int id, String name, String description, int shopId, double price, String categoryUrl){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.shopUrl = shopUrl;
+        this.shopId = shopId;
         this.price = price;
-        this.categoryUrl = categoryUrl;
     }
 
     public int getId(){
@@ -55,12 +53,12 @@ public class MenuItem implements Parcelable {
         this.description = description;
     }
 
-    public String getShopUrl(){
-        return shopUrl;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShopUrl(String shopUrl){
-        this.shopUrl = shopUrl;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
     public double getPrice(){
@@ -69,14 +67,6 @@ public class MenuItem implements Parcelable {
 
     public void setPrice(double price){
         this.price = price;
-    }
-
-    public String getCategoryUrl() {
-        return categoryUrl;
-    }
-
-    public void setCategoryUrl(String categoryUrl){
-        this.categoryUrl = categoryUrl;
     }
 
     public String getImageUrl() {
@@ -93,7 +83,7 @@ public class MenuItem implements Parcelable {
         id = in.readInt();
         name = in.readString();
         description = in.readString();
-        shopUrl = in.readString();
+        shopId = in.readInt();
         price = in.readDouble();
         imageUrl = in.readString();
     }
@@ -109,7 +99,7 @@ public class MenuItem implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeString(shopUrl);
+        dest.writeInt(shopId);
         dest.writeDouble(price);
         dest.writeString(imageUrl);
     }

@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -54,6 +54,8 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     private View view;
 
     private int shopId = -1;
+
+    private RelativeLayout loadingPanel;
 
     private ImageView shopCoverImage;
     private TextView shopTextViewName;
@@ -112,9 +114,12 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
         mCategoryAdapter = new CategoryDataAdapter(getContext(), menuCategoryList);
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
         mCategoryAdapter.setListener(this);
+//        find loadingPanel
+        loadingPanel = view.findViewById(R.id.loadingPanel);
 
 
         if(shopId >= 0){
+            showProgress();
             setJsonShopDetails();
         }
     }
@@ -127,6 +132,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
+                        hideProgress();
 
                         if (!response.has("error")){
                             try {
@@ -162,6 +168,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
                                             menuItem.setDescription(item.getString("description"));
                                             menuItem.setPrice(item.getDouble("price"));
                                             menuItem.setImageUrl(item.getString("photo"));
+                                            menuItem.setShopId(shopId);
 
                                             itemList.add(menuItem);
                                         }
@@ -170,9 +177,8 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
                                         menuCategoryList.add(dm);
                                     }
                                 }
-//                                TODO: set shop location, background image
                             } catch (JSONException e) {
-                                e.printStackTrace();;
+                                e.printStackTrace();
                             }
                         }
 
@@ -182,10 +188,11 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: "+error.getMessage());
+                hideProgress();
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
                 String token = SharedPrefManager
                         .getInstance(getActivity().getApplicationContext()).getKeyToken();
@@ -201,5 +208,13 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onFragmentClick(Parcelable object) {
         mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), object);
+    }
+
+    private void showProgress(){
+        loadingPanel.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress(){
+        loadingPanel.setVisibility(View.GONE);
     }
 }

@@ -18,9 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppTheme.Dark">
-
-        </android.support.v7.widget.Toolbar>
+            android:theme="@style/AppTheme.Dark"/>
 
         <FrameLayout
             android:id="@+id/fragment_container"

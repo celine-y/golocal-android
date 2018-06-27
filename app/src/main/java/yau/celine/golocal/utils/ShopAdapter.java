@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -17,14 +16,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import yau.celine.golocal.R;
-import yau.celine.golocal.app.AppController;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     private Context mContext;
     private ArrayList<ShopItem> mShopList;
     private OnShopClickListener mListener;
-
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public void setListener (OnShopClickListener listener) {
         mListener = listener;
@@ -38,7 +34,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     @NonNull
     @Override
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.shop_row, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_shop, parent, false);
         return new ShopViewHolder(v);
     }
 
@@ -48,7 +44,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
 
         holder.mTextViewName.setText(shop.getName());
         holder.mTextViewRating.setText("Rating: "+String.valueOf(shop.getRating()));
-        holder.mTextViewAddress.setText(shop.getAddress());
+        holder.mTextViewAddress.setText(shop.getRawAddress());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -59,7 +55,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
                 .load(shop.getThumbnailUrl())
                 .apply(options)
                 .into(holder.mImageView);
-//        holder.mImageView.setImageUrl(shop.getThumbnailUrl(), imageLoader);
     }
 
     @Override

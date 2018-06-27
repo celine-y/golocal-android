@@ -5,62 +5,65 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <!-- Shop Header -->
-    <RelativeLayout
-        android:id="@+id/header_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <include
+            android:id="@+id/loadingPanel"
+            layout="@layout/loading_panel"/>
 
-        <!-- Shop Background Image -->
-        <ImageView
-            android:id="@+id/shop_cover_image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cover_image_height"
-            android:scaleType="centerCrop"
-            android:background="@color/lightBrown"/>
-
+        <!-- Shop Header -->
         <RelativeLayout
+            android:id="@+id/header_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_vertical"
-            android:layout_alignLeft="@+id/shop_cover_image"
-            android:layout_alignRight="@+id/shop_cover_image"
-            android:layout_alignBottom="@+id/shop_cover_image">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/shop_name_container"
+            <!-- Shop Background Image -->
+            <ImageView
+                android:id="@+id/shop_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cover_image_height"
+                android:scaleType="centerCrop"
+                android:background="@color/lightBrown"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/CenterJustifyLinearLayout">
-                <!-- Shop Name -->
-                <TextView
-                    android:id="@+id/shop_name"
+                android:paddingBottom="@dimen/padding_vertical"
+                android:layout_alignLeft="@+id/shop_cover_image"
+                android:layout_alignRight="@+id/shop_cover_image"
+                android:layout_alignBottom="@+id/shop_cover_image">
+
+                <LinearLayout
+                    android:id="@+id/shop_name_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/CenterJustifyLinearLayout">
+                    <!-- Shop Name -->
+                    <TextView
+                        android:id="@+id/shop_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/AppTheme.Title.Light"
+                        android:gravity="center_horizontal"
+                        android:text="Shop Name"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shop_description_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/AppTheme.Title.Light"
                     android:gravity="center_horizontal"
-                    android:text="Shop Name"/>
-            </LinearLayout>
+                    android:theme="@style/CenterJustifyLinearLayout"
+                    android:layout_below="@+id/shop_name_container">
+                    <!-- Shop Description -->
+                    <TextView
+                        android:id="@+id/shop_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textAppearance="@style/AppTheme.Caption.Light"
+                        android:text="Description selfanas asfasdf asdfasdf asdfasdf asdf asdf jwolasdf esijasfasf asdfas amfolwisejmf.....!"/>
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/shop_description_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:theme="@style/CenterJustifyLinearLayout"
-                android:layout_below="@+id/shop_name_container">
-                <!-- Shop Description -->
-                <TextView
-                    android:id="@+id/shop_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textAppearance="@style/AppTheme.Caption.Light"
-                    android:text="Description selfanas asfasdf asdfasdf asdfasdf asdf asdf jwolasdf esijasfasf asdfas amfolwisejmf.....!"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
+            </RelativeLayout>
 
     </RelativeLayout>
 

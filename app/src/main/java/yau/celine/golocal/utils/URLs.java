@@ -15,8 +15,13 @@ public class URLs {
 
 //    SHOP URLS
     public static final String URL_SHOP_LIST = ROOT_URL + "shops/";
+//    SHOP PARAMS
+    public static final String SHOP_LOCATION_PARAMS = "/?fields=location";
 
     public static String getShopUrl(int id){
         return URL_SHOP_LIST + String.valueOf(id) + "/";
+    }
+    public static String getShopLocationUrl (int id) {
+        return URL_SHOP_LIST + String.valueOf(id) + SHOP_LOCATION_PARAMS;
     }
 }

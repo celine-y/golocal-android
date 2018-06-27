@@ -20,7 +20,7 @@
                 android:layout_height="@dimen/item_image_size"
                 android:scaleType="centerCrop"
                 android:layout_centerHorizontal="true"
-                android:src="@color/cardview_dark_background"/>
+                android:src="@color/darkBlueGrey"/>
 
             <TextView
                 android:id="@+id/item_name"

@@ -3,9 +3,11 @@
     <string name="app_name">GoLocal</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
+    <string name="logout">Logout</string>
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
+    <string name="prompt_fullname">Full Name</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -23,6 +25,7 @@
 
 
     <!-- Strings related to navigation drawer -->
+    <string name="fragment_profile">Profile</string>
     <string name="fragment_search">Search</string>
     <string name="fragment_current_order">Current Order</string>
     <string name="fragment_history">History</string>
@@ -41,10 +44,13 @@
     <!-- Intent Keys -->
     <string name="intent_message">intent_message</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Prompts -->
     <string name="requests">Requests</string>
     <string name="prompt_customization">Enter your requests</string>
+
+    <!-- Errors -->
+    <string name="item_not_belong_shop">You must submit your order before adding this item.</string>
+
+    <!-- Titles -->
+    <string name="your_order">Your Order</string>
 </resources>

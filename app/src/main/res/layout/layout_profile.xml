@@ -8,44 +8,54 @@
     android:paddingTop="@dimen/padding_vertical"
     android:paddingBottom="@dimen/padding_vertical">
 
-    <!-- Thumbnail Image -->
-    <ImageView
-        android:id="@+id/profile_thumbnail"
-        android:layout_width="@dimen/thumbnail_size"
-        android:layout_height="@dimen/thumbnail_size"
-        android:layout_marginRight="@dimen/margin_right_image"
-        android:background="@color/lightBrown"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"/>
+    <RelativeLayout
+        android:id="@+id/profile_name_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <!-- Name -->
-    <TextView
-        android:id="@+id/profile_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profile_thumbnail"
-        android:layout_toRightOf="@+id/profile_thumbnail"
-        android:layout_toEndOf="@+id/profile_thumbnail"
-        android:textSize="@dimen/title"/>
+        <!-- Thumbnail Image -->
+        <ImageView
+            android:id="@+id/profile_thumbnail"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:layout_marginRight="@dimen/margin_right_image"
+            android:background="@color/lightBrown"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"/>
 
-    <!-- Favorite Count -->
-    <TextView
-        android:id="@+id/profile_fav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_name"
-        android:layout_toRightOf="@+id/profile_thumbnail"
-        android:drawableLeft="@drawable/ic_favorite"
-        android:textSize="@dimen/p1"/>
+        <!-- Name -->
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/profile_thumbnail"
+            android:layout_toRightOf="@+id/profile_thumbnail"
+            android:layout_toEndOf="@+id/profile_thumbnail"
+            android:textSize="@dimen/title"/>
+    </RelativeLayout>
 
-    <!-- Photo Count -->
-    <TextView
-        android:id="@+id/profile_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_fav"
-        android:layout_toRightOf="@+id/profile_thumbnail"
-        android:drawableLeft="@drawable/ic_photo_camera_white"
-        android:textSize="@dimen/p1"/>
+    <RelativeLayout
+        android:layout_below="@+id/profile_name_wrapper"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!-- Favorite Count -->
+        <TextView
+            android:id="@+id/profile_fav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_favorite"
+            android:textSize="@dimen/p1"/>
+
+        <!-- Photo Count -->
+        <TextView
+            android:id="@+id/profile_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_fav"
+            android:drawableLeft="@drawable/ic_photo_camera_white"
+            android:textSize="@dimen/p1"/>
+    </RelativeLayout>
 
 </RelativeLayout>

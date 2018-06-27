@@ -13,14 +13,14 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:gravity="center"
-        android:elevation="2dp"
+        android:elevation="@dimen/small_elevation"
         >
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="10dp"
+            android:elevation="@dimen/big_elevation"
             android:indeterminate="true"/>
     </RelativeLayout>
 
@@ -37,6 +37,18 @@
         android:layout_alignParentStart="true">
 
         <EditText
+            android:id="@+id/editText_register_fullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:hint="@string/prompt_fullname"
+            android:inputType="textPersonName"/>
+
+        <EditText
             android:id="@+id/editText_register_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,6 +56,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/editText_register_fullname"
             android:ems="10"
             android:hint="@string/prompt_username"
             android:inputType="textPersonName"/>
@@ -99,7 +112,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@id/radioType"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/title_activity_register"
             style="@style/Widget.AppCompat.Button.Colored" />
         <TextView
