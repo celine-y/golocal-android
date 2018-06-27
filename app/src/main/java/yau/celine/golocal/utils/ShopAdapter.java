@@ -6,22 +6,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
 import yau.celine.golocal.R;
-import yau.celine.golocal.app.AppController;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     private Context mContext;
     private ArrayList<ShopItem> mShopList;
     private OnShopClickListener mListener;
-
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public void setListener (OnShopClickListener listener) {
         mListener = listener;
@@ -35,7 +34,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     @NonNull
     @Override
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.shop_row, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_shop, parent, false);
         return new ShopViewHolder(v);
     }
 
@@ -45,8 +44,17 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
 
         holder.mTextViewName.setText(shop.getName());
         holder.mTextViewRating.setText("Rating: "+String.valueOf(shop.getRating()));
-        holder.mTextViewAddress.setText(shop.getAddress());
-        holder.mImageView.setImageUrl(shop.getThumbnailUrl(), imageLoader);
+        holder.mTextViewAddress.setText(shop.getRawAddress());
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(mContext)
+                .load(shop.getThumbnailUrl())
+                .apply(options)
+                .into(holder.mImageView);
     }
 
     @Override
@@ -55,7 +63,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     }
 
     public class ShopViewHolder extends RecyclerView.ViewHolder{
-        public NetworkImageView mImageView;
+        public ImageView mImageView;
         public TextView mTextViewName;
         public TextView mTextViewRating;
         public TextView mTextViewAddress;

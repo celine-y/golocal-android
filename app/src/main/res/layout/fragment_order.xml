@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Order Screen -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/order_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_horizontal"
+                android:paddingRight="@dimen/padding_horizontal"
+                android:theme="@style/AppTheme.Dark">
+
+                <LinearLayout
+                    android:id="@+id/your_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_v_textviews"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <!-- Your Order -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/AppTheme.Title.Light"
+                        android:text="@string/your_order"/>
+
+                    <TextView
+                        android:id="@+id/order_num_items"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:layout_marginStart="@dimen/small_margin"
+                        style="@style/AppTheme.Title.Light"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/order_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:layout_below="@id/your_order"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/order_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_header">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/order_item_recyclerview"
+                    android:paddingLeft="@dimen/padding_horizontal"
+                    android:paddingRight="@dimen/padding_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- Floating Order Button -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/order_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:elevation="@dimen/small_elevation"
+        android:layout_gravity="bottom|right|end"
+        android:src="@drawable/ic_chevron_right"
+        android:theme="@style/AppTheme.Button"/>
+
+</android.support.design.widget.CoordinatorLayout>

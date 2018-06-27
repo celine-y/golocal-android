@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+    <!-- Image -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/orderitem_image"
+        android:layout_width="@dimen/thumbnail_size"
+        android:layout_height="@dimen/thumbnail_size"
+        android:scaleType="centerCrop"
+        android:src="@color/darkBlueGrey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/orderitem_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/margin_right_image"
+        app:layout_constraintLeft_toRightOf="@+id/orderitem_image"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/orderitem_name"
+            style="@style/AppTheme.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Item Name" />
+
+        <!-- Requests -->
+        <TextView
+            android:id="@+id/orderitem_request"
+            style="@style/AppTheme.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requests" />
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/orderitem_price"
+            style="@style/AppTheme.Header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$3.00" />
+
+    </LinearLayout>
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="orderitem_image, orderitem_details" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@+id/barrier"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <ImageButton
+            android:id="@+id/add_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_add_circle" />
+
+        <ImageButton
+            android:id="@+id/remove_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_remove_circle" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

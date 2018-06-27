@@ -1,5 +1,10 @@
 package yau.celine.golocal.utils;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Celine on 2018-06-11.
  */
@@ -7,24 +12,23 @@ package yau.celine.golocal.utils;
 public class ShopItem {
     private int id;
     private String name;
-    private String address = "";
     private String thumbnailUrl = "";
+    private ShopAddress shopAddr;
     private double rating = 0;
 
     public ShopItem() {
     }
 
-    public ShopItem(int id, String name, String address, double rating, String thumbnailUrl) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.rating = rating;
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public ShopItem(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public ShopItem(JSONObject obj) {
+        try {
+            this.id = obj.getInt("id");
+            this.name = obj.getString("name");
+            this.thumbnailUrl = obj.getString("cover_image");
+            this.shopAddr = new ShopAddress(obj.getJSONObject("address"));
+//            TODO: get shop rating
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -63,16 +67,12 @@ public class ShopItem {
      * Get address of shop
      * @return address
      */
-    public String getAddress() {
-        return address;
+    public String getRawAddress() {
+        return shopAddr.getRawAddr();
     }
 
-    /**
-     * Set address of shop
-     * @param address
-     */
-    public void setAddress(String address) {
-        this.address = address;
+    public LatLng getLatLng() {
+        return shopAddr.getCoordinates();
     }
 
     /**

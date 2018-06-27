@@ -31,7 +31,8 @@ import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.User;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText editText_register_username, editText_register_password1,
+    private EditText editText_register_fullname,
+            editText_register_username, editText_register_password1,
             editText_register_password2;
     private RadioGroup radioTypeGroup;
     private Button button_register_register;
@@ -50,12 +51,13 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        editText_register_username = (EditText) findViewById(R.id.editText_register_username);
-        editText_register_password1 = (EditText) findViewById(R.id.editText_register_password1);
-        editText_register_password2 = (EditText) findViewById(R.id.editText_register_password2);
-        radioTypeGroup = (RadioGroup) findViewById(R.id.radioType);
+        editText_register_fullname = findViewById(R.id.editText_register_fullname);
+        editText_register_username = findViewById(R.id.editText_register_username);
+        editText_register_password1 = findViewById(R.id.editText_register_password1);
+        editText_register_password2 = findViewById(R.id.editText_register_password2);
+        radioTypeGroup = findViewById(R.id.radioType);
 
-        button_register_register = (Button) findViewById(R.id.button_register_register);
+        button_register_register = findViewById(R.id.button_register_register);
         button_register_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        textViewLogin = (TextView) findViewById(R.id.textViewLogin);
+        textViewLogin = findViewById(R.id.textViewLogin);
         textViewLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void  onClick(View view) {
@@ -74,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
+        final String fullname = editText_register_fullname.getText().toString().trim();
         final String username = editText_register_username.getText().toString().trim();
         final String password1 = editText_register_password1.getText().toString().trim();
         final String password2 = editText_register_password2.getText().toString().trim();
@@ -85,6 +88,12 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
 //        Validations
+        if(TextUtils.isEmpty(fullname)) {
+            editText_register_fullname.setError("Please enter your name");
+            editText_register_fullname.requestFocus();
+            return;
+        }
+
         if(TextUtils.isEmpty(username)) {
             editText_register_username.setError("Please enter username");
             editText_register_username.requestFocus();
@@ -107,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        params.put("full_name", fullname);
         params.put("username", username);
         params.put("password1", password1);
         params.put("password2", password2);
@@ -124,9 +134,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (response.has("key")) {
                     try {
+                        JSONObject userObject = response.getJSONObject("user");
                         User user = new User(
-                                response.getInt("user_id"),
-                                response.getString("key")
+                                userObject.getInt("id"),
+                                response.getString("key"),
+                                userObject.getString("username"),
+                                userObject.getString("full_name"),
+                                userObject.getString("profile_image")
                         );
 //                        store user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);

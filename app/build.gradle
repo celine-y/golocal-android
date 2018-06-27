@@ -41,4 +41,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 //    circle imageview
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+//    Constraint-layout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 }

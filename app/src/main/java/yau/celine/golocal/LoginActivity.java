@@ -56,10 +56,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        editText_login_username = (EditText) findViewById(R.id.editText_login_username);
-        editText_login_password = (EditText) findViewById(R.id.editText_login_password);
+        editText_login_username = findViewById(R.id.editText_login_username);
+        editText_login_password = findViewById(R.id.editText_login_password);
 
-        button_login_login = (Button) findViewById(R.id.button_login_login);
+        button_login_login = findViewById(R.id.button_login_login);
         button_login_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        textViewRegister = (TextView) findViewById(R.id.textViewRegister);
+        textViewRegister = findViewById(R.id.textViewRegister);
         textViewRegister.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -108,9 +108,13 @@ public class LoginActivity extends AppCompatActivity {
                 hideProgress();
                 if (response.has("key")) {
                     try {
+                        JSONObject userObject = response.getJSONObject("user");
                         User user = new User(
-                                response.getInt("user_id"),
-                                response.getString("key")
+                                userObject.getInt("id"),
+                                response.getString("key"),
+                                userObject.getString("username"),
+                                userObject.getString("full_name"),
+                                userObject.getString("profile_image")
                         );
 //                        store user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
