@@ -27,7 +27,7 @@ import java.util.Map;
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
-import yau.celine.golocal.utils.User;
+import yau.celine.golocal.utils.objects.User;
 
 public class LoginActivity extends AppCompatActivity {
     private Button button_login_login;

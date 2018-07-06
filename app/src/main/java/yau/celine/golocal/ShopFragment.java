@@ -34,13 +34,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yau.celine.golocal.app.VolleySingleton;
-import yau.celine.golocal.utils.CategoryDataAdapter;
-import yau.celine.golocal.utils.CategoryDataModel;
-import yau.celine.golocal.utils.IMainActivity;
-import yau.celine.golocal.utils.MenuItem;
-import yau.celine.golocal.utils.OnItemClickListener;
+import yau.celine.golocal.utils.adapters.CategoryDataAdapter;
+import yau.celine.golocal.utils.objects.CategoryDataModel;
+import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.objects.MenuItem;
+import yau.celine.golocal.utils.interfaces.OnItemClickListener;
 import yau.celine.golocal.utils.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
+import yau.celine.golocal.utils.objects.ShopItem;
 
 /**
  * Created by Celine on 2018-06-13.
@@ -61,6 +62,8 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     private TextView shopTextViewName;
     private TextView shopTextViewDescription;
 
+    private ShopItem mShopItem;
+
     private RecyclerView mCategoryRecyclerView;
     private CategoryDataAdapter mCategoryAdapter;
 
@@ -70,8 +73,6 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mIMainActivity.setToolbarTitle(getTag());
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
@@ -88,13 +89,24 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mIMainActivity.lockDrawer();
+
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_shop, container, false);
 
 //        Set shop details
             getShopDetails();
         }
+
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mIMainActivity.unlockDrawer();
     }
 
     private void getShopDetails(){
@@ -136,6 +148,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
 
                         if (!response.has("error")){
                             try {
+                                mShopItem = new ShopItem(response);
                                 shopTextViewName.setText(response.getString("name"));
                                 shopTextViewDescription.setText(response.getString("description"));
 //                                load cover image
@@ -207,7 +220,10 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void onFragmentClick(Parcelable object) {
-        mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), object);
+        ArrayList objects = new ArrayList();
+        objects.add(mShopItem);
+        objects.add(object);
+        mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), objects);
     }
 
     private void showProgress(){

@@ -7,8 +7,8 @@
 
     <!-- Gray Scale -->
     <color name="darkest">#1F2D3D</color>
-    <color name="dark">#5A6978</color>
-    <color name="medium">#969FAA</color>
-    <color name="light">#F9FAFC</color>
+    <color name="dark">#595b5e</color>
+    <color name="medium">#a8abaf</color>
+    <color name="light">#f1f1f1</color>
     <color name="lightest">#FFFFFF</color>
 </resources>

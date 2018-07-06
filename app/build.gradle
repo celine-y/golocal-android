@@ -25,8 +25,12 @@ dependencies {
     })
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.google.android.gms:play-services:11.0.4'
-    implementation 'com.google.android.gms:play-services-maps:11.0.4'
+//    google - places, nearby, maps, location
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.android.gms:play-services-nearby:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
 
@@ -43,4 +47,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 //    Constraint-layout
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+//    Bottom Navigation Drawer
+    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 }

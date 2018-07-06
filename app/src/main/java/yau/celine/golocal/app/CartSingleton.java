@@ -3,7 +3,7 @@ package yau.celine.golocal.app;
 import java.util.ArrayList;
 
 import yau.celine.golocal.utils.ItemNotBelongToShopException;
-import yau.celine.golocal.utils.OrderMenuItem;
+import yau.celine.golocal.utils.objects.OrderMenuItem;
 
 public class CartSingleton {
     private static CartSingleton mInstance;

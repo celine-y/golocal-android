@@ -1,4 +1,6 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.objects;
+
+import yau.celine.golocal.utils.objects.MenuItem;
 
 public class OrderMenuItem extends MenuItem {
     private String requests;

@@ -1,4 +1,4 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import yau.celine.golocal.R;
+import yau.celine.golocal.utils.objects.MenuItem;
+import yau.celine.golocal.utils.interfaces.OnItemClickListener;
 
 public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapter.MenuItemRowHolder> {
     private static final String TAG = "ItemListDataAdapter";

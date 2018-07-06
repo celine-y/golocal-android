@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/fragment_search"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
+        android:title="@string/fragment_profile"/>
+
+    <item
+        android:id="@+id/nav_current_order"
+        android:icon="@drawable/ic_shop"
+        android:title="@string/fragment_current_order"/>
+
+</menu>

@@ -10,21 +10,44 @@
     tools:context=".BaseActivity"
     tools:openDrawer="start">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:orientation="vertical"
+        android:elevation="1dp">
+
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppTheme.Dark"/>
+            android:layout_height="wrap_content">
+
+            <!-- Toolbar -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/TransparentActionBar"/>
+
+        </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_nav_height"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+        <!-- Bottom Navigation -->
+        <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
+
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -32,5 +55,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/menu_drawer"/>
 </android.support.v4.widget.DrawerLayout>

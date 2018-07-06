@@ -1,25 +1,26 @@
 package yau.celine.golocal;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -30,18 +31,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,12 +65,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yau.celine.golocal.app.VolleySingleton;
-import yau.celine.golocal.utils.IMainActivity;
-import yau.celine.golocal.utils.OnShopClickListener;
+import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.interfaces.OnShopClickListener;
 import yau.celine.golocal.utils.SharedPrefManager;
-import yau.celine.golocal.utils.ShopAdapter;
-import yau.celine.golocal.utils.ShopItem;
+import yau.celine.golocal.utils.adapters.ShopAdapter;
+import yau.celine.golocal.utils.objects.ShopItem;
 import yau.celine.golocal.utils.URLs;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Celine on 2018-06-13.
@@ -66,16 +82,14 @@ import yau.celine.golocal.utils.URLs;
 public class SearchFragment extends Fragment implements
         OnShopClickListener,
         OnMapReadyCallback,
-        GoogleMap.OnMarkerClickListener,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener{
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        GoogleMap.OnMarkerClickListener {
+
     private static final String TAG = "SearchFragment";
-    private static final int LOC_REQ_CODE = 1;
-    private static final int CON_REQ_CODE = 2;
-    private static int UPDATE_INTERNAL=5000;
-    private static int FASTEST_INTERVAL=3000;
-    private static int ZOOM_LEVEL=13;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 2;
+    private static final int DEFAULT_ZOOM = 14;
+    private static final int ZOOM_CITY = 11;
 
     private View view;
 
@@ -83,20 +97,34 @@ public class SearchFragment extends Fragment implements
 
     private IMainActivity mIMainActivity;
 
+    private Boolean mLocationPermissionGranted;
+    private Boolean mGpsEnabled;
+
+    private GoogleMap mMap;
+    private CameraPosition mCameraPosition;
+
+//    entry points to Places API
+    private GeoDataClient mGeoDataClient;
+    private PlaceDetectionClient mPlaceDetectionClient;
+//    entry point to Fused Location Provider
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+//    Default location
+    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+
+//    storing activity state keys
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+
+
     private RecyclerView mRecyclerView;
     private ShopAdapter mShopAdapter;
     private ArrayList<ShopItem> mShopList = new ArrayList<>();
 
-    private GoogleMap mMap;
-    private MapView mMapView;
 
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private LatLng mLastLatLng;
+
+    private Location mLastKnownLocation;
     private LocationManager mLocationManager;
-    private Criteria mCriteria;
-    private String bestProvider;
-    private Location mLastLocation;
     private SupportMapFragment mMapFragment;
 
     @Override
@@ -110,6 +138,20 @@ public class SearchFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
+//        Construct GeoDataClient
+        mGeoDataClient = Places.getGeoDataClient(getActivity());
+//        Construct PlaceDetectionClient
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity());
+//        Construct FusedLocationProviderClient
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+//        setup toolbar
+        setHasOptionsMenu(true);
         mIMainActivity.setToolbarTitle(getTag());
     }
 
@@ -119,25 +161,105 @@ public class SearchFragment extends Fragment implements
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_search, container, false);
 
-            showShopOnMap();
+//            showShopOnMap();
         }
         return view;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mMapFragment.onDestroyView();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (mMap != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
 
-        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGPS();
+            super.onSaveInstanceState(outState);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                try {
+                    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                            .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                            .build();
+                    Intent autocompleteIntent = new PlaceAutocomplete.IntentBuilder
+                            (PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(typeFilter)
+                            .build(getActivity());
+                    startActivityForResult(autocompleteIntent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    Log.e("Exception: {%s}", e.getMessage());
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e("Exception: {%s}", e.getMessage());
+                    Toast.makeText(getContext(), "Google play services unavailable", Toast.LENGTH_LONG);
+                }
+                return true;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PLACE_AUTOCOMPLETE_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                    Log.i(TAG, "User clicked place: " + place.getName());
+
+//                    Move map camera to selected place
+                    moveCamera(place.getLatLng(), ZOOM_CITY);
+//                    Search for stores in area
+                    getStores();
+                } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                    Status status = PlaceAutocomplete.getStatus(getContext(), data);
+                    Log.e(TAG, status.getStatusMessage());
+                } else if (resultCode == RESULT_CANCELED) {
+//                    TODO: user cancelled operation
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+//        prompt for permission
+        getLocationPermission();
+
+//        prompt for GPS
+        getGPSEnabled();
+
+//        turn on location layer and related controls
+        updateLocationUI();
+
+//        get current location of devices and set position of map
+        getDeviceLocation();
+
+//        set Map settings
+        mMap.setMinZoomPreference(ZOOM_CITY);
+        mMap.setMaxZoomPreference(DEFAULT_ZOOM + 1);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
     }
 
     private void buildAlertMessageNoGPS() {
@@ -158,57 +280,189 @@ public class SearchFragment extends Fragment implements
         alert.show();
     }
 
-    private void showShopOnMap() {
-        showShopListRecycler();
-    }
-
     private void setUpMapIfNeeded() {
         if (mMapFragment == null) {
-            mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            android.support.v4.app.FragmentManager fm = getChildFragmentManager();
+            mMapFragment =  SupportMapFragment.newInstance();
+            fm.beginTransaction().replace(R.id.map, mMapFragment).commit();
             mMapFragment.getMapAsync(this);
+        }
+    }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                checkLocationPermission();
+    private void showProgress() {
+        loadingPanel.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        loadingPanel.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFragmentClick(int position) {
+        String shop_id = String.valueOf(mShopList.get(position).getId());
+        mIMainActivity.inflateFragment(getString(R.string.fragment_shop_details), shop_id);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setUpMapIfNeeded();
+    }
+
+    /**
+     * Get best and most recent location of devices,
+     * which may be null in rare cases when a location is not available
+     */
+    private void getDeviceLocation() {
+        try {
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+
+                locationResult.addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+//                            Move map's camera position to current location
+                            mLastKnownLocation = location;
+                            moveCamera(mLastKnownLocation, DEFAULT_ZOOM);
+//                            Search for stores in visible area
+                            getStores();
+                        } else {
+                            setDefaultLocation();
+                        }
+                    }
+                }).addOnFailureListener(getActivity(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception ex) {
+                        setDefaultLocation();
+                        Log.e(TAG, "Exception: %s", ex);
+                    }
+                });
+
             }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
         }
     }
 
-    private void setMarkers() {
-        //        add markers from each shop
-        for (int i = 0; i < mShopList.size(); i++) {
-            MarkerOptions options = new MarkerOptions()
-                    .position(mShopList.get(i).getLatLng());
-
-            mMap.addMarker(options);
-        }
-
-        mMap.setOnMarkerClickListener(this);
+    private void setDefaultLocation() {
+        Log.d(TAG, "Current location is null. Using defaults.");
+        moveCamera(mDefaultLocation, DEFAULT_ZOOM);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
-    private void showShopListRecycler() {
-//        set RecyclerView
-        mRecyclerView = view.findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
-//        set Adapter
-        mShopAdapter = new ShopAdapter(getContext(), mShopList);
-        mRecyclerView.setAdapter(mShopAdapter);
-//        set on click for shop item
-        mShopAdapter.setListener(this);
-//        find loadingPanel
-        loadingPanel = view.findViewById(R.id.loadingPanel);
+    /**
+     * Enable My Location layer if fine location permission granted
+     */
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void getGPSEnabled() {
+        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGPS();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+            }
+            break;
+        }
+        updateLocationUI();
+    }
+
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+
+        try {
+            if (mLocationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void moveCamera(Location location, int zoomLevel) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(location.getLatitude(),
+                        location.getLongitude()),
+                zoomLevel
+                ));
+    }
+
+    private void moveCamera(LatLng latLng, int zoomLevel) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                latLng, zoomLevel));
+    }
+
+    private void getStores() {
+//        setup store recyclers/adapters
+        showShopListRecycler();
 
 //        show progress bar
         showProgress();
 
 //        get shops and display
-        parseJSON();
+        getShopFromApi();
     }
 
-    private void parseJSON() {
-        JsonArrayRequest shopReq = new JsonArrayRequest(URLs.URL_SHOP_LIST,
+
+    private void showShopListRecycler() {
+        if (mRecyclerView == null) {
+//        set RecyclerView
+            mRecyclerView = view.findViewById(R.id.recycler_view);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                    DividerItemDecoration.VERTICAL));
+//        set Adapter
+            mShopAdapter = new ShopAdapter(getContext(), mShopList);
+            mRecyclerView.setAdapter(mShopAdapter);
+//        set on click for shop item
+            mShopAdapter.setListener(this);
+//        find loadingPanel
+            loadingPanel = view.findViewById(R.id.loadingPanel);
+        } else {
+            mShopList.clear();
+        }
+    }
+
+    private void getShopFromApi() {
+        VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+        LatLngBounds latLngBounds = visibleRegion.latLngBounds;
+        String url = URLs.getShopUrl(latLngBounds);
+
+        JsonArrayRequest shopReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -257,137 +511,21 @@ public class SearchFragment extends Fragment implements
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(shopReq);
     }
 
-    private void showProgress() {
-        loadingPanel.setVisibility(View.VISIBLE);
-    }
+    private void setMarkers() {
+        //        add markers from each shop
+        for (int i = 0; i < mShopList.size(); i++) {
+            MarkerOptions options = new MarkerOptions()
+                    .position(mShopList.get(i).getLatLng());
 
-    private void hideProgress() {
-        loadingPanel.setVisibility(View.GONE);
-    }
+            mMap.addMarker(options);
+        }
 
-    @Override
-    public void onFragmentClick(int position) {
-        String shop_id = String.valueOf(mShopList.get(position).getId());
-        mIMainActivity.inflateFragment(getString(R.string.fragment_shop_details), shop_id);
+        mMap.setOnMarkerClickListener(this);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
 //        TODO: highlight store clicked
         return false;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setUpMapIfNeeded();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-//        Enable current location
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-//                permission granted
-                buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
-            }
-        } else {
-            buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
-        }
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
-    }
-
-    private boolean checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                TODO: show rationale
-                requestPermissions(new String[] {
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, LOC_REQ_CODE);
-            } else {
-                requestPermissions(new String[] {
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, LOC_REQ_CODE);
-            }
-
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case LOC_REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(getContext(),
-                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        if (mGoogleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
-
-                        mMap.setMyLocationEnabled(true);
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-                }
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERNAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        if (ActivityCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        mLastLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mLastLatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
-
-        if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
     }
 }

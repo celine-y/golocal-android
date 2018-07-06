@@ -28,7 +28,7 @@ import java.util.Map;
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
-import yau.celine.golocal.utils.User;
+import yau.celine.golocal.utils.objects.User;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText editText_register_fullname,
