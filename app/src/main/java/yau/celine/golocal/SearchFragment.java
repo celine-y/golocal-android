@@ -116,12 +116,9 @@ public class SearchFragment extends Fragment implements
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-
     private RecyclerView mRecyclerView;
     private ShopAdapter mShopAdapter;
     private ArrayList<ShopItem> mShopList = new ArrayList<>();
-
-
 
     private Location mLastKnownLocation;
     private LocationManager mLocationManager;
@@ -160,8 +157,6 @@ public class SearchFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_search, container, false);
-
-//            showShopOnMap();
         }
         return view;
     }
