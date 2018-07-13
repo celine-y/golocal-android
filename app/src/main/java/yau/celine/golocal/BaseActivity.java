@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
 import java.util.ArrayList;
@@ -36,8 +36,15 @@ import yau.celine.golocal.utils.objects.User;
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         IMainActivity, AHBottomNavigation.OnTabSelectedListener,
-        CartChangeCallback {
+        CartChangeCallback,
+        FragmentManager.OnBackStackChangedListener{
     private static final String TAG = "BaseActivity";
+    private static final int NAV_DRAWER_NONE = -1;
+
+    private int mCurrentNavMenuItem;
+    private int mCurrentBottomMenuItem;
+
+    private FragmentManager mFragmentManager;
 
     private Toolbar mToolbar;
     private NavigationView navigationView;
@@ -48,7 +55,6 @@ public class BaseActivity extends AppCompatActivity
     private TextView profilePhotoCount;
 
     private FrameLayout mFrameLayout;
-
 
     private AHBottomNavigation mBottomNavigation;
 
@@ -66,15 +72,16 @@ public class BaseActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_base);
 
-//        Set up toolbar
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-
 //        Framelayout for fragments
         mFrameLayout = findViewById(R.id.fragment_container);
 
 //        Set up bottom navigation
         setupBottomNav();
+
+
+//        Set up toolbar
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
 //        Set up drawer
         drawer = findViewById(R.id.drawer_layout);
@@ -92,42 +99,31 @@ public class BaseActivity extends AppCompatActivity
         headerView = navigationView.getHeaderView(0);
         setupHeader();
 
+//        set FragmentManager
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(this);
+
 
 //        Set default menu item if no previous state
         if (savedInstanceState == null) {
             init();
-            navigationView.setCheckedItem(R.id.nav_search);
-            mBottomNavigation.setCurrentItem(0);
         }
     }
 
+    /**
+     * Method to set menu items, styles for bottom nav bar
+     */
     private void setupBottomNav() {
         mBottomNavigation = findViewById(R.id.bottom_navigation);
 
-//        create items
-        AHBottomNavigationItem searchItem = new AHBottomNavigationItem(
-                getString(R.string.fragment_search),
-                R.drawable.ic_search
-        );
-        AHBottomNavigationItem profileItem = new AHBottomNavigationItem(
-                getString(R.string.fragment_profile),
-                R.drawable.ic_person
-        );
-        AHBottomNavigationItem orderItem = new AHBottomNavigationItem(
-                getString(R.string.fragment_current_order),
-                R.drawable.ic_shop
-        );
-
-//        add items
-        mBottomNavigation.addItem(searchItem);
-        mBottomNavigation.addItem(profileItem);
-        mBottomNavigation.addItem(orderItem);
+        AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.menu_bottombar);
+        navigationAdapter.setupWithBottomNavigation(mBottomNavigation);
 
 //        colors
         mBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.lightest));
         mBottomNavigation.setAccentColor(fetchColor(R.color.darkBlueGrey));
         mBottomNavigation.setInactiveColor(fetchColor(R.color.medium));
-//        mBottomNavigation.setForceTint(true);
+        mBottomNavigation.setForceTint(true);
 
         mBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
@@ -138,113 +134,8 @@ public class BaseActivity extends AppCompatActivity
         return ContextCompat.getColor(this, color);
     }
 
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switchToFragment(item.getItemId());
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void switchToFragment(int menuId) {
-        switch (menuId) {
-            case R.id.nav_search:
-                SearchFragment searchFragment = new SearchFragment();
-                doFragmentTransaction(searchFragment, getString(R.string.fragment_search),
-                        true, "", false);
-                navigationView.setCheckedItem(menuId);
-                mBottomNavigation.setCurrentItem(0);
-                break;
-            case R.id.nav_current_order:
-                OrderFragment orderFragment = new OrderFragment();
-                doFragmentTransaction(orderFragment, getString(R.string.fragment_current_order),
-                        true, "", true);
-                Log.d(TAG, CartSingleton.getInstance().getCartItemList().toString());
-                navigationView.setCheckedItem(menuId);
-                mBottomNavigation.setCurrentItem(2);
-                break;
-            case R.id.nav_history:
-//                TODO: link to history fragment
-                navigationView.setCheckedItem(R.id.nav_history);
-                break;
-            case R.id.nav_rewards:
-//                TODO: link to rewards fragment
-                navigationView.setCheckedItem(R.id.nav_rewards);
-                break;
-            case R.id.nav_payment:
-//                TODO: link to payment fragment
-                navigationView.setCheckedItem(R.id.nav_payment);
-                break;
-            case R.id.nav_profile:
-                openProfileFragment();
-                break;
-            case R.id.nav_settings:
-//                TODO: link to settings fragment
-                navigationView.setCheckedItem(R.id.nav_settings);
-                break;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private void doFragmentTransaction(Fragment fragment, String tag,
-           boolean addToBackStack, String message, boolean slideAnimation){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        if(!message.isEmpty()){
-            Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.intent_message), message);
-            fragment.setArguments(bundle);
-        }
-
-        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
-    }
-
-    private void doFragmentTransaction(Fragment fragment, String tag,
-           boolean addToBackStack, Parcelable parcelable, boolean slideAnimation){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(getString(R.string.intent_message), parcelable);
-        fragment.setArguments(bundle);
-
-        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
-    }
-
-    private void doFragmentTransaction(Fragment fragment, String tag,
-           boolean addToBackStack, ArrayList<Parcelable> arrayList, boolean slideAnimation){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(getString(R.string.intent_message), arrayList);
-        fragment.setArguments(bundle);
-
-        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
-    }
-
-    private void commitTransaction(FragmentTransaction transaction, Fragment fragment, String tag,
-           boolean addToBackStack, boolean slideAnimation) {
-        if (slideAnimation) {
-            transaction.setCustomAnimations(R.anim.slide_in_up, 0, 0, R.anim.slide_out_down);
-        }
-            transaction.replace(R.id.fragment_container, fragment, tag);
-
-        if (addToBackStack) {
-//            TODO: do not allow the same fragment to be added to backstack
-            transaction.addToBackStack(tag);
-        }
-
-        transaction.commit();
-    }
-
     private void init(){
+        setCurrentItemUsingDrawer(R.id.nav_search);
         SearchFragment fragment = new SearchFragment();
         doFragmentTransaction(fragment, getString(R.string.fragment_search),
                 false, "", false);
@@ -255,7 +146,8 @@ public class BaseActivity extends AppCompatActivity
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openProfileFragment();
+                loadProfileFragment();
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 //        set icon next to profile name
@@ -266,23 +158,68 @@ public class BaseActivity extends AppCompatActivity
         profileName.setText(currentUser.getFullName());
     }
 
-    private void openProfileFragment(){
-        loadProfileFragment();
-        mBottomNavigation.setCurrentItem(1);
-    }
-
-    private void loadProfileFragment() {
-        ProfileFragment fragment = new ProfileFragment();
-        doFragmentTransaction(fragment, getString(R.string.fragment_profile),
-                true, "", false);
-        drawer.closeDrawer(GravityCompat.START);
-        navigationView.setCheckedItem(R.id.nav_profile);
-    }
-
     @Override
     public void setToolbarTitle(String fragmentTitle) {
-        mToolbar.setTitle(fragmentTitle);
+        getSupportActionBar().setTitle(fragmentTitle);
     }
+
+    /**
+     * Handling the actual fragment inflations
+     */
+    private void doFragmentTransaction(Fragment fragment, String tag,
+                                       boolean addToBackStack, String message, boolean slideAnimation){
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        if (!message.isEmpty()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.intent_message), message);
+            fragment.setArguments(bundle);
+        }
+
+        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
+    }
+
+    private void doFragmentTransaction(Fragment fragment, String tag,
+                                       boolean addToBackStack, Parcelable parcelable, boolean slideAnimation){
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(getString(R.string.intent_message), parcelable);
+        fragment.setArguments(bundle);
+
+        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
+    }
+
+    private void doFragmentTransaction(Fragment fragment, String tag,
+                                       boolean addToBackStack, ArrayList<Parcelable> arrayList, boolean slideAnimation){
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(getString(R.string.intent_message), arrayList);
+        fragment.setArguments(bundle);
+
+        commitTransaction(transaction, fragment, tag, addToBackStack, slideAnimation);
+    }
+
+    private void commitTransaction(FragmentTransaction transaction, Fragment fragment, String tag,
+                                   boolean addToBackStack, boolean slideAnimation) {
+
+        if (slideAnimation) {
+            transaction.setCustomAnimations(R.anim.slide_in_up, 0, 0, R.anim.slide_out_down);
+        }
+        transaction.replace(R.id.fragment_container, fragment, tag);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+
+        }
+
+        transaction.commit();
+    }
+
+    /**
+     * Inflating fragment callbacks
+     */
 
     @Override
     public void inflateFragment(String fragmentTag, String message) {
@@ -313,31 +250,142 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * Set correct active menu items on any change in fragment
+     */
+    @Override
+    public void onBackStackChanged() {
+        Fragment currentFragment = getCurrentFragment();
+        setToolbarTitle(currentFragment.getTag());
+        if (currentFragment instanceof SearchFragment) {
+            setCurrentItemUsingDrawer(R.id.nav_search);
+        } else if (currentFragment instanceof OrderFragment) {
+            setCurrentItemUsingDrawer(R.id.nav_current_order);
+        } else if (currentFragment instanceof ProfileFragment) {
+            setCurrentItemUsingDrawer(R.id.nav_profile);
+        } else {
+            setCurrentItemUsingDrawer(NAV_DRAWER_NONE);
+        }
+//        TODO: else statements for other fragments
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * When item selected on bottom navigation
+     * @param position
+     * @param wasSelected
+     * @return
+     */
     @Override
     public boolean onTabSelected(int position, boolean wasSelected) {
-        switch (position) {
-            case 0:
-                SearchFragment searchFragment = new SearchFragment();
-                doFragmentTransaction(searchFragment, getString(R.string.fragment_search),
-                        true, "", false);
-                navigationView.setCheckedItem(R.id.nav_search);
-                break;
-            case 1:
-                loadProfileFragment();
-                break;
-            case 2:
-                OrderFragment orderFragment = new OrderFragment();
-                doFragmentTransaction(orderFragment, getString(R.string.fragment_current_order),
-                        true, "", true);
-                Log.d(TAG, CartSingleton.getInstance().getCartItemList().toString());
-                navigationView.setCheckedItem(R.id.nav_current_order);
-                break;
+//        checks if current item is already opened
+        if (position != mCurrentBottomMenuItem) {
+            switch (position) {
+                case 0:
+                    loadSearchFragment();
+                    break;
+                case 1:
+                    loadProfileFragment();
+                    break;
+                case 2:
+                    loadCurrentOrderFragment();
+                    break;
+            }
         }
         return true;
     }
 
-//    TODO: fix backpress menu highlight correct item
+    /**
+     * Item selected using navigation drawer
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() != mCurrentNavMenuItem) {
+            switch (item.getItemId()) {
+                case R.id.nav_search:
+                    loadSearchFragment();
+                    break;
+                case R.id.nav_current_order:
+                    loadCurrentOrderFragment();
+                    break;
+                case R.id.nav_history:
+//                TODO: link to history fragment
+                    break;
+                case R.id.nav_rewards:
+//                TODO: link to rewards fragment
+                    break;
+                case R.id.nav_payment:
+//                TODO: link to payment fragment
+                    break;
+                case R.id.nav_profile:
+                    loadProfileFragment();
+                    break;
+                case R.id.nav_settings:
+//                TODO: link to settings fragment
+                    break;
+            }
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
+    /**
+     * Methods to help with setting navigation drawers
+     */
+
+    private void setCurrentItemUsingDrawer(int navMenuId) {
+        mCurrentNavMenuItem = navMenuId;
+        if (mCurrentNavMenuItem == R.id.nav_search) {
+            mCurrentBottomMenuItem = 0;
+        } else if (mCurrentNavMenuItem == R.id.nav_profile) {
+            mCurrentBottomMenuItem = 1;
+        } else if (mCurrentNavMenuItem == R.id.nav_current_order) {
+            mCurrentBottomMenuItem = 2;
+        } else {
+            mCurrentBottomMenuItem = AHBottomNavigation.CURRENT_ITEM_NONE;
+        }
+
+        navigationView.setCheckedItem(mCurrentNavMenuItem);
+        mBottomNavigation.setCurrentItem(mCurrentBottomMenuItem);
+    }
+
+    /**
+     * Functions to help with loading common fragments between
+     * Bottom Navigation Bar and Navigation Drawer
+     */
+    private void loadSearchFragment() {
+        SearchFragment searchFragment = new SearchFragment();
+        doFragmentTransaction(searchFragment, getString(R.string.fragment_search),
+                true, "", false);
+    }
+
+    private void loadProfileFragment() {
+        ProfileFragment fragment = new ProfileFragment();
+        doFragmentTransaction(fragment, getString(R.string.fragment_profile),
+                true, "", false);
+    }
+
+    private void loadCurrentOrderFragment() {
+        OrderFragment orderFragment = new OrderFragment();
+        doFragmentTransaction(orderFragment, getString(R.string.fragment_current_order),
+                true, "", true);
+    }
+
+    /**
+     * Adding items to cart will update the badge on bottom nav bar
+     * @param number
+     */
     @Override
     public void onAddOrRemoveItem(int number) {
         if (number == 0) {
@@ -351,6 +399,10 @@ public class BaseActivity extends AppCompatActivity
             mBottomNavigation.setNotification(notification, 2);
         }
     }
+
+    /**
+     * Adding and Removing Drawers
+     */
 
     @Override
     public void lockDrawer() {
@@ -382,5 +434,9 @@ public class BaseActivity extends AppCompatActivity
         int bottom = (int) getResources().getDimension(R.dimen.bottom_nav_height);
         params.setMargins(0, 0,0, bottom);
         mFrameLayout.setLayoutParams(params);
+    }
+
+    private Fragment getCurrentFragment() {
+        return mFragmentManager.findFragmentById(R.id.fragment_container);
     }
 }
