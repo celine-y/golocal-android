@@ -18,9 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import yau.celine.golocal.utils.IMainActivity;
+import yau.celine.golocal.utils.interfaces.IMainActivity;
 import yau.celine.golocal.utils.SharedPrefManager;
-import yau.celine.golocal.utils.User;
+import yau.celine.golocal.utils.objects.User;
 
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";

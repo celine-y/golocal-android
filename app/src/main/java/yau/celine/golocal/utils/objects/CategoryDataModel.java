@@ -1,6 +1,8 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.objects;
 
 import java.util.ArrayList;
+
+import yau.celine.golocal.utils.objects.MenuItem;
 
 public class CategoryDataModel {
     private String categoryName;

@@ -13,9 +13,19 @@
         <item name="android:color">@color/lightest</item>
         <item name="android:tint">@color/lightest</item>
     </style>
+
+    <style name="AppTheme.NextFloatButton" parent="AppTheme.Button">
+        <item name="android:layout_margin">@dimen/activity_vertical_margin</item>
+        <item name="android:src">@drawable/ic_chevron_right</item>
+    </style>
     <!-- Text Styles -->
     <style name="AppTheme.Header" parent="@style/Base.TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/darkest</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Header.Light" parent="@style/Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/lightest</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -52,8 +62,12 @@
         <item name="android:textColor">@color/dark</item>
     </style>
 
+    <style name="AppTheme.Body.Light" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/lightest</item>
+    </style>
+    <!--Dark Background, Light Text -->
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:textColorPrimary">@color/lightest</item>
+        <item name="android:actionMenuTextColor">@color/lightest</item>
         <item name="android:textColor">@color/lightest</item>
         <item name="android:color">@color/lightest</item>
         <item name="android:tint">@color/lightest</item>
@@ -63,6 +77,13 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TransparentActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:actionMenuTextColor">@color/lightest</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

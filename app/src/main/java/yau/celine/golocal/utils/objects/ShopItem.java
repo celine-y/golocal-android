@@ -1,4 +1,7 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.objects;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -9,26 +12,28 @@ import org.json.JSONObject;
  * Created by Celine on 2018-06-11.
  */
 
-public class ShopItem {
+public class ShopItem implements Parcelable {
     private int id;
     private String name;
     private String thumbnailUrl = "";
-    private ShopAddress shopAddr;
-    private double rating = 0;
+    private ShopDetails shopDetails;
 
-    public ShopItem() {
-    }
 
     public ShopItem(JSONObject obj) {
         try {
             this.id = obj.getInt("id");
             this.name = obj.getString("name");
             this.thumbnailUrl = obj.getString("cover_image");
-            this.shopAddr = new ShopAddress(obj.getJSONObject("address"));
-//            TODO: get shop rating
+            this.shopDetails = new ShopDetails(obj.getJSONObject("place"));
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public ShopItem(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        shopDetails = in.readParcelable(ShopDetails.class.getClassLoader());
     }
 
     /**
@@ -68,11 +73,11 @@ public class ShopItem {
      * @return address
      */
     public String getRawAddress() {
-        return shopAddr.getRawAddr();
+        return shopDetails.getRawAddr();
     }
 
     public LatLng getLatLng() {
-        return shopAddr.getCoordinates();
+        return shopDetails.getCoordinates();
     }
 
     /**
@@ -96,16 +101,44 @@ public class ShopItem {
      * @return rating
      */
     public double getRating() {
-        return rating;
+        return shopDetails.getRating();
     }
 
-    /**
-     * Set rating
-     * @param rating
-     */
-    public void setRating(double rating) {
-        this.rating = rating;
+    public String getFormattedAddress() {
+        return shopDetails.getFormattedAddress();
+    }
+
+    public String getPhoneNumber() {
+        return shopDetails.getPhoneNumber();
     }
 
 
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+//        write properties to parcel
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(thumbnailUrl);
+        dest.writeParcelable(shopDetails, i);
+    }
+
+//    CREATOR - used when un-parceling
+    public static final Parcelable.Creator<ShopItem> CREATOR
+        = new Parcelable.Creator<ShopItem>() {
+
+    @Override
+    public ShopItem createFromParcel(Parcel parcel) {
+        return new ShopItem(parcel);
+    }
+
+    @Override
+    public ShopItem[] newArray(int i) {
+        return new ShopItem[0];
+    }
+};
 }

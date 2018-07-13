@@ -2,6 +2,7 @@ package yau.celine.golocal;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,11 +20,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
+
 import yau.celine.golocal.app.CartSingleton;
-import yau.celine.golocal.utils.IMainActivity;
+import yau.celine.golocal.utils.interfaces.CartChangeCallback;
+import yau.celine.golocal.utils.interfaces.IMainActivity;
 import yau.celine.golocal.utils.ItemNotBelongToShopException;
-import yau.celine.golocal.utils.MenuItem;
-import yau.celine.golocal.utils.OrderMenuItem;
+import yau.celine.golocal.utils.objects.MenuItem;
+import yau.celine.golocal.utils.objects.OrderMenuItem;
+import yau.celine.golocal.utils.objects.ShopItem;
 
 public class ItemFragment extends Fragment {
     private static final String TAG = "ItemFragment";
@@ -31,7 +36,9 @@ public class ItemFragment extends Fragment {
     private View view;
 
     private IMainActivity mIMainActivity;
+    private Context mContext;
     private MenuItem item;
+    private ShopItem shop;
 
     private ImageView itemImage;
     private TextView itemName;
@@ -44,6 +51,8 @@ public class ItemFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        mContext = context;
+
         mIMainActivity = (IMainActivity) getActivity();
     }
 
@@ -51,20 +60,28 @@ public class ItemFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mIMainActivity.setToolbarTitle(getTag());
-
         Bundle bundle = this.getArguments();
         if (bundle != null){
-            item = bundle.getParcelable(getString(R.string.intent_message));
+            try {
+                ArrayList<Parcelable> objects = bundle.getParcelableArrayList(getString(R.string.intent_message));
+                shop = (ShopItem) objects.get(0);
+                item = (MenuItem) objects.get(1);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mIMainActivity.lockDrawer();
+
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
+//            show shop name
+            showShopDetails();
 //            display details
             showItemDetails();
 
@@ -75,6 +92,13 @@ public class ItemFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mIMainActivity.unlockDrawer();
+    }
+
     private void setBtnAddItem() {
         btnAddItem = view.findViewById(R.id.add_to_order);
         itemRequest = view.findViewById(R.id.item_request);
@@ -83,21 +107,29 @@ public class ItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Selected "+item.getName());
-//                get request message
+
 //                cast to OrderMenuItem
                 OrderMenuItem orderItem = new OrderMenuItem(item);
                 if (itemRequest.getText() != null)
                     orderItem.setRequests(itemRequest.getText().toString());
-//                save item to cart
                 try {
+//                    save item to cart
                     CartSingleton.getInstance().addMenuItem(orderItem);
+                    animateAddToCart();
                 } catch (ItemNotBelongToShopException ex) {
-                    Toast.makeText(getContext(),
-                            getString(R.string.item_not_belong_shop),
+                    Toast.makeText(mContext, getString(R.string.cannot_add_to_cart),
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void animateAddToCart() {
+        Toast.makeText(mContext, getString(R.string.added_to_cart),
+                Toast.LENGTH_SHORT).show();
+        ((CartChangeCallback)mContext).onAddOrRemoveItem(
+                CartSingleton.getInstance().getOrderSize()
+        );
     }
 
     private void showItemDetails(){
@@ -110,12 +142,17 @@ public class ItemFragment extends Fragment {
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(getContext())
+        Glide.with(mContext)
                 .load(item.getImageUrl())
                 .apply(options)
                 .into(itemImage);
 
         itemName.setText(item.getName());
         itemDescription.setText(item.getDescription());
+    }
+
+    private void showShopDetails(){
+        TextView shopName = view.findViewById(R.id.item_shop);
+        shopName.setText(shop.getName());
     }
 }

@@ -1,4 +1,4 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -16,6 +16,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import yau.celine.golocal.R;
+import yau.celine.golocal.utils.interfaces.OnShopClickListener;
+import yau.celine.golocal.utils.objects.ShopItem;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     private Context mContext;

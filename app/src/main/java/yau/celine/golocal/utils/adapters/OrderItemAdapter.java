@@ -1,4 +1,4 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,15 +18,22 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import yau.celine.golocal.R;
+import yau.celine.golocal.utils.interfaces.CartChangeCallback;
+import yau.celine.golocal.utils.objects.OrderMenuItem;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.OrderItemHolder>{
 
     private Context mContext;
     private ArrayList<OrderMenuItem> mItemList;
+    private CartChangeCallback mCartChangeCallback;
 
     public OrderItemAdapter(Context context, ArrayList<OrderMenuItem> itemList) {
         mContext = context;
         mItemList = itemList;
+    }
+
+    public void setCartChangeCallbackListener(CartChangeCallback listener) {
+        mCartChangeCallback = listener;
     }
 
     @NonNull
@@ -62,7 +69,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
             @Override
             public void onClick(View view) {
                 mItemList.add(mItemList.get(position));
-                notifyDataSetChanged();
+                updatedChangedCart();
             }
         });
 
@@ -70,9 +77,17 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
             @Override
             public void onClick(View view) {
                 mItemList.remove(position);
-                notifyDataSetChanged();
+                updatedChangedCart();
             }
         });
+    }
+
+    private void updatedChangedCart() {
+        notifyDataSetChanged();
+        ((CartChangeCallback)mContext).onAddOrRemoveItem(mItemList.size());
+        if (mCartChangeCallback != null) {
+            mCartChangeCallback.onAddOrRemoveItem(mItemList.size());
+        }
     }
 
     @Override

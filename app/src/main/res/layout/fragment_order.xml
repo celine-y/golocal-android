@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -48,8 +47,13 @@
                     android:id="@+id/order_shop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_v_textviews"
                     android:layout_below="@id/your_order"/>
+                <TextView
+                    android:id="@+id/order_shop_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:layout_below="@id/order_shop"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -74,10 +78,8 @@
         android:id="@+id/order_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:elevation="@dimen/small_elevation"
+        android:visibility="gone"
         android:layout_gravity="bottom|right|end"
-        android:src="@drawable/ic_chevron_right"
-        android:theme="@style/AppTheme.Button"/>
+        style="@style/AppTheme.NextFloatButton"/>
 
 </android.support.design.widget.CoordinatorLayout>

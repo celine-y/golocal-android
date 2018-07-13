@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import yau.celine.golocal.LoginActivity;
+import yau.celine.golocal.utils.objects.User;
 
 /**
  * Created by Celine on 2018-06-11.

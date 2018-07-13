@@ -1,4 +1,4 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.utils.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +11,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import yau.celine.golocal.R;
+import yau.celine.golocal.utils.objects.CategoryDataModel;
+import yau.celine.golocal.utils.interfaces.OnItemClickListener;
+import yau.celine.golocal.utils.interfaces.OnShopClickListener;
+import yau.celine.golocal.utils.objects.ShopItem;
 
 public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapter.CategoryRowHolder>
 implements OnShopClickListener {
+
+    private ShopItem mShop;
 
     private ArrayList<CategoryDataModel> categoryDataList;
     private Context mContext;
