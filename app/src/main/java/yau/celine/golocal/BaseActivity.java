@@ -119,12 +119,15 @@ public class BaseActivity extends AppCompatActivity
         AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.menu_bottombar);
         navigationAdapter.setupWithBottomNavigation(mBottomNavigation);
 
+//        disable bottom bar sliding
+        mBottomNavigation.setBehaviorTranslationEnabled(false);
+
 //        colors
         mBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.lightest));
         mBottomNavigation.setAccentColor(fetchColor(R.color.darkBlueGrey));
         mBottomNavigation.setInactiveColor(fetchColor(R.color.medium));
         mBottomNavigation.setForceTint(true);
-
+//        always show text of icons
         mBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
         mBottomNavigation.setOnTabSelectedListener(this);
