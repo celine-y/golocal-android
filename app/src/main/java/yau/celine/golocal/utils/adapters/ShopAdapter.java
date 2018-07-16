@@ -1,11 +1,16 @@
 package yau.celine.golocal.utils.adapters;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +28,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     private Context mContext;
     private ArrayList<ShopItem> mShopList;
     private OnShopClickListener mListener;
+    private int mSelectedItemPosition;
 
     public void setListener (OnShopClickListener listener) {
         mListener = listener;
@@ -31,6 +37,11 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     public ShopAdapter (Context context, ArrayList<ShopItem> shopList) {
         mContext = context;
         mShopList = shopList;
+        mSelectedItemPosition = -1;
+    }
+
+    public void setSelectedItem(int position) {
+        mSelectedItemPosition = position;
     }
 
     @NonNull
@@ -43,6 +54,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     @Override
     public void onBindViewHolder(@NonNull ShopViewHolder holder, int position) {
         ShopItem shop = mShopList.get(position);
+
+        if (position == mSelectedItemPosition) {
+            setColor(holder, R.color.darkBrown);
+        } else {
+            setColor(holder, R.color.darkest);
+        }
 
         holder.mTextViewName.setText(shop.getName());
         holder.mTextViewRating.setText("Rating: "+String.valueOf(shop.getRating()));
@@ -57,6 +74,17 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
                 .load(shop.getThumbnailUrl())
                 .apply(options)
                 .into(holder.mImageView);
+    }
+
+    public void setColor(ShopViewHolder holder, @ColorRes int colorId) {
+        holder.mTextViewName.setTextColor(ContextCompat.getColor(mContext, colorId));
+    }
+
+
+
+    public void animateWiggle(View viewToAnimate) {
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.wiggle);
+        viewToAnimate.startAnimation(animation);
     }
 
     @Override

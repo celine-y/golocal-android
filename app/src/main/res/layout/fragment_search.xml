@@ -12,15 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/cover_image_height"/>
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/map">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light"/>
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:background="@color/light"
+        android:layout_below="@+id/map"/>
 </RelativeLayout>

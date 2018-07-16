@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -448,7 +449,9 @@ public class SearchFragment extends Fragment implements
 //        find loadingPanel
             loadingPanel = view.findViewById(R.id.loadingPanel);
         } else {
+            mShopAdapter.setSelectedItem(-1);
             mShopList.clear();
+            mMap.clear();
         }
     }
 
@@ -511,7 +514,6 @@ public class SearchFragment extends Fragment implements
         for (int i = 0; i < mShopList.size(); i++) {
             MarkerOptions options = new MarkerOptions()
                     .position(mShopList.get(i).getLatLng());
-
             mMap.addMarker(options);
         }
 
@@ -520,7 +522,24 @@ public class SearchFragment extends Fragment implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-//        TODO: highlight store clicked
+        final LatLng markerPosition = marker.getPosition();
+        int selectedMarker = -1;
+        for (int i = 0; i < mShopList.size(); i++) {
+            if (markerPosition.latitude == mShopList.get(i).getLatLng().latitude
+                    && markerPosition.longitude == mShopList.get(i).getLatLng().longitude) {
+                selectedMarker = i;
+            }
+        }
+
+        selectItem(selectedMarker);
+
         return false;
+    }
+
+    private void selectItem(final int itemId){
+        mRecyclerView.smoothScrollToPosition(itemId);
+
+        mShopAdapter.setSelectedItem(itemId);
+        mShopAdapter.notifyDataSetChanged();
     }
 }
