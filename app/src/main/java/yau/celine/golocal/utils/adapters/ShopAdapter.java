@@ -1,6 +1,5 @@
 package yau.celine.golocal.utils.adapters;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -22,11 +21,11 @@ import java.util.ArrayList;
 
 import yau.celine.golocal.R;
 import yau.celine.golocal.utils.interfaces.OnShopClickListener;
-import yau.celine.golocal.utils.objects.ShopItem;
+import yau.celine.golocal.utils.objects.ShopObject;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     private Context mContext;
-    private ArrayList<ShopItem> mShopList;
+    private ArrayList<ShopObject> mShopList;
     private OnShopClickListener mListener;
     private int mSelectedItemPosition;
 
@@ -34,7 +33,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
         mListener = listener;
     }
 
-    public ShopAdapter (Context context, ArrayList<ShopItem> shopList) {
+    public ShopAdapter (Context context, ArrayList<ShopObject> shopList) {
         mContext = context;
         mShopList = shopList;
         mSelectedItemPosition = -1;
@@ -53,7 +52,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ShopViewHolder holder, int position) {
-        ShopItem shop = mShopList.get(position);
+        ShopObject shop = mShopList.get(position);
 
         if (position == mSelectedItemPosition) {
             setColor(holder, R.color.darkBrown);

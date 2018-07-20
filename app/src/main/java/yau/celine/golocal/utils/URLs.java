@@ -22,6 +22,7 @@ public class URLs {
 //    SHOP PARAMS
     public static final String SHOP_LOCATION_PARAMS = "?fields=place,name";
     public static final String SHOP_RECTANGLE_PARAMS = "?rectangle=%f,%f,%f,%f";
+    private static final String SHOP_OMIT_CATEGORY = "?omit=category_set";
 
     public static String getShopUrl(int id){
         return URL_SHOP_LIST + String.valueOf(id) + "/";
@@ -36,5 +37,18 @@ public class URLs {
     }
     public static String getShopLocationUrl (int id) {
         return URL_SHOP_LIST + String.valueOf(id) + "/" + SHOP_LOCATION_PARAMS;
+    }
+    public static String getShopUrlWithoutItems(int id) {
+        return getShopUrl(id) + SHOP_OMIT_CATEGORY;
+    }
+
+//    USER URL
+    public static final String URL_CURRENT_USER = ROOT_URL + "users/me/";
+    public static final String URL_CURRENT_USER_FAV = URL_CURRENT_USER + "?fields=favorites";
+
+//    ITEM URL
+    private static final String URL_ITEM_LIST = ROOT_URL + "items/";
+    public static String toggleFavItem (int itemId) {
+        return URL_ITEM_LIST + String.valueOf(itemId) + "/favorite";
     }
 }

@@ -1,11 +1,9 @@
 package yau.celine.golocal.utils.objects;
 
-import yau.celine.golocal.utils.objects.MenuItem;
-
-public class OrderMenuItem extends MenuItem {
+public class OrderItemObject extends ItemObject {
     private String requests;
 
-    public OrderMenuItem(MenuItem item){
+    public OrderItemObject(ItemObject item){
         this.setId(item.getId());
         this.setName(item.getName());
         this.setDescription(item.getDescription());

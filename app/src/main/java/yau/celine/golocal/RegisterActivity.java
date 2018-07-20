@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yau.celine.golocal.app.VolleySingleton;
-import yau.celine.golocal.utils.SharedPrefManager;
+import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.objects.User;
 
@@ -134,14 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (response.has("key")) {
                     try {
-                        JSONObject userObject = response.getJSONObject("user");
-                        User user = new User(
-                                userObject.getInt("id"),
-                                response.getString("key"),
-                                userObject.getString("username"),
-                                userObject.getString("full_name"),
-                                userObject.getString("profile_image")
-                        );
+                        User user = new User(response);
 //                        store user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
@@ -165,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;

@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import yau.celine.golocal.R;
 import yau.celine.golocal.utils.interfaces.CartChangeCallback;
-import yau.celine.golocal.utils.objects.OrderMenuItem;
+import yau.celine.golocal.utils.objects.OrderItemObject;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.OrderItemHolder>{
 
     private Context mContext;
-    private ArrayList<OrderMenuItem> mItemList;
+    private ArrayList<OrderItemObject> mItemList;
     private CartChangeCallback mCartChangeCallback;
 
-    public OrderItemAdapter(Context context, ArrayList<OrderMenuItem> itemList) {
+    public OrderItemAdapter(Context context, ArrayList<OrderItemObject> itemList) {
         mContext = context;
         mItemList = itemList;
     }
@@ -39,13 +39,14 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
     @NonNull
     @Override
     public OrderItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_orderitem, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_orderitem,
+                parent, false);
         return new OrderItemHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderItemHolder holder, final int position) {
-        OrderMenuItem item = mItemList.get(position);
+        OrderItemObject item = mItemList.get(position);
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
 
         String priceText = numberFormat.format(item.getPrice());

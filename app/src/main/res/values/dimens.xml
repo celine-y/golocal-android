@@ -2,7 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_no_margin">1dp</dimen>
 
     <!-- Dimens related to padding -->
     <dimen name="padding_horizontal">16dp</dimen>
@@ -16,11 +15,11 @@
     <dimen name="thumbnail_size">80dp</dimen>
 
     <!-- Dimens related to font size -->
-    <dimen name="title">32dp</dimen>
-    <dimen name="header1">24dp</dimen>
-    <dimen name="p1">16dp</dimen>
-    <dimen name="p2">12dp</dimen>
-    <dimen name="p3">8dp</dimen>
+    <dimen name="title">32sp</dimen>
+    <dimen name="header1">24sp</dimen>
+    <dimen name="p1">16sp</dimen>
+    <dimen name="p2">12sp</dimen>
+    <dimen name="p3">8sp</dimen>
 
     <!-- Dimen related to extra layout style  -->
     <dimen name="divider_height">1dp</dimen>
@@ -42,4 +41,10 @@
 
     <!-- Bottom Nav -->
     <dimen name="bottom_nav_height">60dp</dimen>
+
+    <!-- Spinner Width Confirm Order-->
+    <dimen name="spinner_width">240dp</dimen>
+
+    <!-- Button -->
+    <dimen name="med_button_size">48dp</dimen>
 </resources>

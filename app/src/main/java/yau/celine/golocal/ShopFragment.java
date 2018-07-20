@@ -37,11 +37,11 @@ import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.adapters.CategoryDataAdapter;
 import yau.celine.golocal.utils.objects.CategoryDataModel;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
-import yau.celine.golocal.utils.objects.MenuItem;
+import yau.celine.golocal.utils.objects.ItemObject;
 import yau.celine.golocal.utils.interfaces.OnItemClickListener;
-import yau.celine.golocal.utils.SharedPrefManager;
+import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
-import yau.celine.golocal.utils.objects.ShopItem;
+import yau.celine.golocal.utils.objects.ShopObject;
 
 /**
  * Created by Celine on 2018-06-13.
@@ -51,6 +51,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     private static final String TAG = "ShopFragment";
 
     private IMainActivity mIMainActivity;
+    private Context mContext;
 
     private View view;
 
@@ -62,12 +63,12 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     private TextView shopTextViewName;
     private TextView shopTextViewDescription;
 
-    private ShopItem mShopItem;
+    private ShopObject mShopObject;
 
     private RecyclerView mCategoryRecyclerView;
     private CategoryDataAdapter mCategoryAdapter;
 
-    private ArrayList<CategoryDataModel> menuCategoryList;
+    private ArrayList<CategoryDataModel> mCategoryDataModelList;
 
 
     @Override
@@ -84,6 +85,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         mIMainActivity = (IMainActivity) getActivity();
+        mContext = context;
     }
 
     @Nullable
@@ -115,15 +117,15 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
         shopTextViewDescription = view.findViewById(R.id.shop_description);
         shopCoverImage = view.findViewById(R.id.shop_cover_image);
 
-        menuCategoryList = new ArrayList<>();
+        mCategoryDataModelList = new ArrayList<>();
 //        set recycler view for categories
         mCategoryRecyclerView = view.findViewById(R.id.recycler_view_category_list);
         mCategoryRecyclerView.setHasFixedSize(true);
-        mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mCategoryRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+        mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mCategoryRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
                 DividerItemDecoration.VERTICAL));
 //        set adapter for mCategoryRecyclerView
-        mCategoryAdapter = new CategoryDataAdapter(getContext(), menuCategoryList);
+        mCategoryAdapter = new CategoryDataAdapter(mContext, mCategoryDataModelList);
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
         mCategoryAdapter.setListener(this);
 //        find loadingPanel
@@ -148,7 +150,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
 
                         if (!response.has("error")){
                             try {
-                                mShopItem = new ShopItem(response);
+                                mShopObject = new ShopObject(response);
                                 shopTextViewName.setText(response.getString("name"));
                                 shopTextViewDescription.setText(response.getString("description"));
 //                                load cover image
@@ -157,7 +159,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
                                         .placeholder(R.drawable.ic_launcher_background)
                                         .error(R.drawable.ic_launcher_background)
                                         .diskCacheStrategy(DiskCacheStrategy.ALL);
-                                Glide.with(getContext())
+                                Glide.with(mContext)
                                         .load(response.getString("cover_image"))
                                         .apply(options)
                                         .into(shopCoverImage);
@@ -172,30 +174,24 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
 
 //                                    get items within category
                                         JSONArray items = category.getJSONArray("item_set");
-                                        ArrayList<MenuItem> itemList = new ArrayList<>();
+                                        ArrayList<ItemObject> itemList = new ArrayList<>();
                                         for (int i = 0; i < items.length(); i++) {
 //                                        parse item values
                                             JSONObject item = items.getJSONObject(i);
-                                            MenuItem menuItem = new MenuItem();
-                                            menuItem.setName(item.getString("name"));
-                                            menuItem.setDescription(item.getString("description"));
-                                            menuItem.setPrice(item.getDouble("price"));
-                                            menuItem.setImageUrl(item.getString("photo"));
-                                            menuItem.setShopId(shopId);
-
-                                            itemList.add(menuItem);
+                                            ItemObject itemObject = new ItemObject(item);
+                                            itemList.add(itemObject);
                                         }
 
                                         dm.setItemsInCategory(itemList);
-                                        menuCategoryList.add(dm);
+                                        mCategoryDataModelList.add(dm);
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
 
-                        mCategoryAdapter.notifyDataSetChanged();
+                            mCategoryAdapter.notifyDataSetChanged();
+                        }
                     }
                 }, new Response.ErrorListener(){
             @Override
@@ -220,10 +216,10 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void onFragmentClick(Parcelable object) {
-        ArrayList objects = new ArrayList();
-        objects.add(mShopItem);
-        objects.add(object);
-        mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), objects);
+        ArrayList objectsPassedToFragment = new ArrayList();
+        objectsPassedToFragment.add(mShopObject);
+        objectsPassedToFragment.add(object);
+        mIMainActivity.inflateFragment(getString(R.string.fragment_item_details), objectsPassedToFragment);
     }
 
     private void showProgress(){

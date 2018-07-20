@@ -3,30 +3,28 @@ package yau.celine.golocal.utils.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MenuItem implements Parcelable {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class ItemObject implements Parcelable {
     private int id;
     private String name;
     private String description;
     private int shopId;
     private double price;
     private String imageUrl;
+    private boolean userFav;
 
-    public MenuItem() {}
+    public ItemObject() {}
 
-    public MenuItem(int id, String name, String description, int shopId, double price){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.shopId = shopId;
-        this.price = price;
-    }
-
-    public MenuItem(int id, String name, String description, int shopId, double price, String categoryUrl){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.shopId = shopId;
-        this.price = price;
+    public ItemObject(JSONObject jsonObject) throws JSONException {
+        id = jsonObject.getInt("id");
+        name = jsonObject.getString("name");
+        description = jsonObject.getString("description");
+        price = jsonObject.getDouble("price");
+        imageUrl = jsonObject.getString("photo");
+        shopId = jsonObject.getInt("shop");
+        userFav = jsonObject.getBoolean("favorited_by_user");
     }
 
     public int getId(){
@@ -78,7 +76,7 @@ public class MenuItem implements Parcelable {
     }
 
 //    Parcel
-    public MenuItem(Parcel in){
+    public ItemObject(Parcel in){
 //        read and set values from parcel
         id = in.readInt();
         name = in.readString();
@@ -86,6 +84,7 @@ public class MenuItem implements Parcelable {
         shopId = in.readInt();
         price = in.readDouble();
         imageUrl = in.readString();
+        userFav = in.readByte() != 0;     //userFav == true if byte != 0
     }
 
     @Override
@@ -102,21 +101,25 @@ public class MenuItem implements Parcelable {
         dest.writeInt(shopId);
         dest.writeDouble(price);
         dest.writeString(imageUrl);
+        dest.writeByte((byte) (userFav ? 1 : 0));     //if userFav == true, byte == 1
     }
 
 //    CREATOR - used when un-parceling (creating object)
-    public static final Parcelable.Creator<MenuItem> CREATOR =
-        new Parcelable.Creator<MenuItem>(){
+    public static final Parcelable.Creator<ItemObject> CREATOR =
+        new Parcelable.Creator<ItemObject>(){
 
         @Override
-        public MenuItem createFromParcel(Parcel parcel) {
-            return new MenuItem(parcel);
+        public ItemObject createFromParcel(Parcel parcel) {
+            return new ItemObject(parcel);
         }
 
         @Override
-        public MenuItem[] newArray(int i) {
-            return new MenuItem[0];
+        public ItemObject[] newArray(int i) {
+            return new ItemObject[0];
         }
     };
 
+    public boolean isUserFav() {
+        return userFav;
+    }
 }

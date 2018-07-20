@@ -6,4 +6,30 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <!-- Button -->
+    <style name="AppTheme.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">@color/lightBrown</item>
+        <item name="android:backgroundTint">@color/lightBrown</item>
+    </style>
+
+    <!-- View Styles -->
+    <style name="TransparentActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:actionMenuTextColor">@color/lightest</item>
+        <item name="android:tint">@color/lightest</item>
+        <item name="android:backgroundTint">@color/lightest</item>
+    </style>
+
+    <style name="ItemRecyclerView">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/lightest</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:scrollbars">none</item>
+    </style>
 </resources>

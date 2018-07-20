@@ -2,13 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/small_margin">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/small_margin">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/category_name"
@@ -18,8 +16,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            style="@style/AppTheme.Header.Color"
-            android:text="Category"/>
+            style="@style/AppTheme.Header.Color"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -27,6 +24,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="horizontal"></android.support.v7.widget.RecyclerView>
-
+        android:orientation="horizontal"/>
 </LinearLayout>

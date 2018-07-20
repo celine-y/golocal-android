@@ -27,53 +27,70 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_image"
-                android:theme="@style/PaddedRelativeLayout">
-            <!-- Details Wrapper -->
+                style="@style/PaddedRelativeLayout">
                 <RelativeLayout
+                    android:id="@+id/item_title_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:theme="@style/NoPaddingLayout">
+                    android:layout_height="wrap_content">
+
                     <!-- Item Name -->
                     <TextView
                         android:id="@+id/item_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/AppTheme.Header.Color"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:text="Menu Item"/>
-                    <!-- Shop Name -->
-                    <TextView
-                        android:id="@+id/item_shop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/AppTheme.Caption"
-                        android:layout_below="@id/item_name"
-                        android:layout_marginBottom="@dimen/margin_v_textviews"
-                        android:text="Shop Name"/>
-                    <!-- Description -->
-                    <TextView
-                        android:id="@+id/item_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/AppTheme.Body"
-                        android:layout_below="@+id/item_shop"
-                        android:layout_marginBottom="@dimen/margin_v_textviews"
-                        android:text="Description"/>
-                    <!-- Request -->
-                    <TextView
-                        android:id="@+id/caption_request"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/item_description"
-                        android:textAppearance="@style/AppTheme.Header2"
-                        android:text="@string/requests"/>
-                    <EditText
-                        android:id="@+id/item_request"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/AppTheme.Body"
-                        android:layout_below="@+id/caption_request"
-                        android:hint="@string/prompt_customization"/>
+
+                    <!-- Favorite Button -->
+
+                    <ToggleButton
+                        android:id="@+id/item_favorite"
+                        android:layout_width="@dimen/med_button_size"
+                        android:layout_height="@dimen/med_button_size"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:backgroundTint="@color/lightBrown"
+                        android:background="@drawable/selection_favorite_toggle"
+                        android:textOn=""
+                        android:textOff=""/>
                 </RelativeLayout>
+                <!-- Shop Name -->
+                <TextView
+                    android:id="@+id/item_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Caption"
+                    android:layout_below="@id/item_title_layout"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:text="Shop Name"/>
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/item_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Body"
+                    android:layout_below="@+id/item_shop"
+                    android:layout_marginBottom="@dimen/margin_v_textviews"
+                    android:text="Description"/>
+                <!-- Request -->
+                <TextView
+                    android:id="@+id/caption_request"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_description"
+                    android:textAppearance="@style/AppTheme.Header2"
+                    android:text="@string/requests"/>
+                <EditText
+                    android:id="@+id/item_request"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/AppTheme.Body"
+                    android:layout_below="@+id/caption_request"
+                    android:hint="@string/prompt_customization"/>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

@@ -57,6 +57,8 @@
     <string name="item_not_belong_shop">You must submit your order before adding this item.</string>
 
     <!-- Titles -->
+    <string name="favorites">Favorites</string>
+    <string name="photos">Photos</string>
     <string name="your_order">Your Order</string>
     <string name="total">Total</string>
 
@@ -68,4 +70,6 @@
     <!-- Cart -->
     <string name="added_to_cart">Added to cart</string>
     <string name="cannot_add_to_cart">The item you added does not belong to the same shop as your other items</string>
+    <!-- Confirm Order -->
+    <string name="tax">Tax</string>
 </resources>

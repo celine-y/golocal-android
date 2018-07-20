@@ -15,22 +15,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-import yau.celine.golocal.app.CartSingleton;
 import yau.celine.golocal.utils.interfaces.CartChangeCallback;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
-import yau.celine.golocal.utils.SharedPrefManager;
+import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.objects.User;
 
 public class BaseActivity extends AppCompatActivity
@@ -51,8 +53,7 @@ public class BaseActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private View headerView;
     private TextView profileName;
-    private TextView profileFavCount;
-    private TextView profilePhotoCount;
+    private ImageView profileImage;
 
     private FrameLayout mFrameLayout;
 
@@ -74,9 +75,6 @@ public class BaseActivity extends AppCompatActivity
 
 //        Framelayout for fragments
         mFrameLayout = findViewById(R.id.fragment_container);
-
-//        Set up bottom navigation
-        setupBottomNav();
 
 
 //        Set up toolbar
@@ -102,6 +100,9 @@ public class BaseActivity extends AppCompatActivity
 //        set FragmentManager
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
+
+//        Set up bottom navigation
+        setupBottomNav();
 
 
 //        Set default menu item if no previous state
@@ -153,12 +154,26 @@ public class BaseActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-//        set icon next to profile name
+//        find elements
         profileName = headerView.findViewById(R.id.profile_name);
         profileName.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_chevron_right, 0);
-//        set profile details (name, favs, photos, etc)
+
+        profileImage = headerView.findViewById(R.id.profile_thumbnail);
+
+//        set profile details (name, profile pic fav, photos, etc)
         User currentUser = SharedPrefManager.getInstance(this).getUser();
         profileName.setText(currentUser.getFullName());
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+        Glide.with(this)
+                .load(currentUser.getProfilePhotoUrl())
+                .apply(options)
+                .into(profileImage);
     }
 
     @Override
