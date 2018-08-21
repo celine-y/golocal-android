@@ -38,6 +38,10 @@
         <item name="android:textColor">@color/darkest</item>
     </style>
 
+    <style name="AppTheme.Header2.Light" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/lightest</item>
+    </style>
+
     <style name="AppTheme.Title" parent="@style/Base.TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/darkest</item>
         <item name="android:textStyle">bold</item>
@@ -84,6 +88,7 @@
         <!-- Support library compatibility -->
         <item name="windowActionBarOverlay">true</item>
         <item name="android:actionMenuTextColor">@color/lightest</item>
+        <item name="android:tint">@color/lightest</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -103,8 +108,19 @@
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
     </style>
 
-    <style name="NoPaddingLayout">
-        <item name="android:padding">@dimen/activity_no_margin</item>
+    <style name="ItemRecyclerView">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/lightest</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+
+    <style name="ProfileHeaderRelativeLayout">
+        <item name="android:paddingRight">@dimen/padding_horizontal</item>
+        <item name="android:paddingLeft">@dimen/padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical</item>
     </style>
 
 </resources>

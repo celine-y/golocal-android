@@ -43,7 +43,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/AppTheme.Title.Light"
                         android:gravity="center_horizontal"
-                        android:text="Shop Name"/>
+                        android:shadowRadius="50"
+                        android:shadowColor="@color/darkest"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -72,11 +73,8 @@
         android:id="@+id/recycler_view_category_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@+id/header_container"
-        android:background="@color/lightest"
-        android:scrollbars="none">
-    </android.support.v7.widget.RecyclerView>
+        style="@style/ItemRecyclerView"/>
 
     </RelativeLayout>
 

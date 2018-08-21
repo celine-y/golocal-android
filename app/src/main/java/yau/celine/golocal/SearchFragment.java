@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -68,9 +67,9 @@ import java.util.Map;
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
 import yau.celine.golocal.utils.interfaces.OnShopClickListener;
-import yau.celine.golocal.utils.SharedPrefManager;
+import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.adapters.ShopAdapter;
-import yau.celine.golocal.utils.objects.ShopItem;
+import yau.celine.golocal.utils.objects.ShopObject;
 import yau.celine.golocal.utils.URLs;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -119,7 +118,7 @@ public class SearchFragment extends Fragment implements
 
     private RecyclerView mRecyclerView;
     private ShopAdapter mShopAdapter;
-    private ArrayList<ShopItem> mShopList = new ArrayList<>();
+    private ArrayList<ShopObject> mShopList = new ArrayList<>();
 
     private Location mLastKnownLocation;
     private LocationManager mLocationManager;
@@ -471,7 +470,7 @@ public class SearchFragment extends Fragment implements
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
-                                ShopItem shop = new ShopItem(obj);
+                                ShopObject shop = new ShopObject(obj);
 //                                add shop to shop array
                                 mShopList.add(shop);
                             } catch (JSONException e) {
@@ -496,12 +495,9 @@ public class SearchFragment extends Fragment implements
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                String token = SharedPrefManager
-                        .getInstance(getActivity().getApplicationContext()).getKeyToken();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                headers.put("Authorization", "Token " + token);
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = SharedPrefManager
+                        .getInstance(getActivity().getApplicationContext()).getHeaders();
 
                 return headers;
             }

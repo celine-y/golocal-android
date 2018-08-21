@@ -3,29 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<include
+    <include
         android:id="@+id/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         layout="@layout/layout_profile"/>
 
+        <RelativeLayout
+            android:id="@+id/profile_body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_header">
+
+            <include
+                android:id="@+id/loadingPanel"
+                layout="@layout/loading_panel"/>
+
+            <!-- Favourites -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/profile_favorites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ItemRecyclerView"/>
+
+            <!-- Photos -->
+
+        </RelativeLayout>
+
+
     <RelativeLayout
-        android:id="@+id/profile_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_header">
-
-        <!-- Favourites -->
-        <!--<include-->
-            <!--android:id="@+id/favorites"-->
-            <!--layout="@layout/category_section"/>-->
-
-        <!-- Photos -->
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_details">
+        android:layout_below="@+id/profile_body_layout">
 
         <!-- Logout -->
         <Button

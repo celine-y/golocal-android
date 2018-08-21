@@ -2,16 +2,14 @@ package yau.celine.golocal.utils.objects;
 
 import java.util.ArrayList;
 
-import yau.celine.golocal.utils.objects.MenuItem;
-
 public class CategoryDataModel {
     private String categoryName;
-    private ArrayList<MenuItem> allItemsInCategory;
+    private ArrayList<ItemObject> allItemsInCategory;
 
     public CategoryDataModel(){
     }
 
-    public CategoryDataModel(String categoryName, ArrayList<MenuItem> allItemsInCategory){
+    public CategoryDataModel(String categoryName, ArrayList<ItemObject> allItemsInCategory){
         this.categoryName = categoryName;
         this.allItemsInCategory = allItemsInCategory;
     }
@@ -24,11 +22,11 @@ public class CategoryDataModel {
         this.categoryName = categoryName;
     }
 
-    public ArrayList<MenuItem> getAllItemsInCategory() {
+    public ArrayList<ItemObject> getAllItemsInCategory() {
         return allItemsInCategory;
     }
 
-    public void setItemsInCategory(ArrayList<MenuItem> itemsInCategory) {
+    public void setItemsInCategory(ArrayList<ItemObject> itemsInCategory) {
         this.allItemsInCategory = itemsInCategory;
     }
 }

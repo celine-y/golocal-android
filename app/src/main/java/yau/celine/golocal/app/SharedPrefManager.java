@@ -1,8 +1,11 @@
-package yau.celine.golocal.utils;
+package yau.celine.golocal.app;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import yau.celine.golocal.LoginActivity;
 import yau.celine.golocal.utils.objects.User;
@@ -80,6 +83,15 @@ public class SharedPrefManager {
                 Context.MODE_PRIVATE);
 
         return sharedPreferences.getString(KEY_TOKEN, null);
+    }
+
+    public HashMap<String, String> getHeaders() {
+        HashMap<String, String> headers = new HashMap<>();
+        String token = getKeyToken();
+        headers.put("Content-Type", "application/json; charset=utf-8");
+        headers.put("Authorization", "Token "+ token);
+
+        return headers;
     }
 
     public void logout(){

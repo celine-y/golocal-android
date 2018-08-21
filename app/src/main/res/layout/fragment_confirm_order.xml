@@ -8,98 +8,133 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <!-- Header -->
-        <RelativeLayout
-            android:id="@+id/relative_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_horizontal"
-            android:background="@color/darkBlueGrey"
-            android:theme="@style/PaddedRelativeLayout">
+            <!-- Header -->
+            <RelativeLayout
+                android:id="@+id/relative_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_horizontal"
+                android:background="@color/darkBlueGrey"
+                style="@style/PaddedRelativeLayout">
 
+                <TextView
+                    android:id="@+id/confirm_store_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.Header.Light"
+                    android:text="Name of Store"/>
+                <TextView
+                    android:id="@+id/confirm_store_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/confirm_store_name"
+                    style="@style/AppTheme.Header2.Light"
+                    android:text="123 Address St, Aurora, Ontario, Canada"/>
+                <TextView
+                    android:id="@+id/confirm_store_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/confirm_store_address"
+                    style="@style/AppTheme.Body.Light"
+                    android:text="9057131622"/>
+            </RelativeLayout>
+
+            <!-- Order Details -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/NoPaddingLayout">
+                android:layout_below="@+id/relative_header">
 
-            <TextView
-                android:id="@+id/confirm_store_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/AppTheme.Header.Light"
-                android:text="Name of Store"/>
-            <TextView
-                android:id="@+id/confirm_store_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/confirm_store_name"
-                style="@style/AppTheme.Header.Light"
-                android:text="123 Address St, Aurora, Ontario, Canada"/>
-            <TextView
-                android:id="@+id/confirm_store_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/confirm_store_address"
-                style="@style/AppTheme.Body.Light"
-                android:text="9057131622"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/confirm_items"
+                    android:paddingLeft="@dimen/padding_horizontal"
+                    android:paddingRight="@dimen/padding_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <!--TODO: Rewards -->
+                <RelativeLayout
+                    android:id="@+id/rewards_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/confirm_items"
+                    style="@style/PaddedRelativeLayout">
+
+                    <Spinner
+                        android:layout_width="@dimen/spinner_width"
+                        android:layout_height="wrap_content"
+                        android:prompt="@string/fragment_rewards"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/rewards_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"/>
+
+                </RelativeLayout>
+
+                <!-- TODO: Tax Area -->
+                <RelativeLayout
+                    android:id="@+id/tax_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rewards_layout"
+                    style="@style/PaddedRelativeLayout">
+
+                    <TextView
+                        android:id="@+id/textview_tax"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AppTheme.Header"
+                        android:text="@string/tax"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/AppTheme.Body"
+                        android:layout_below="@+id/textview_tax"/>
+
+                </RelativeLayout>
+
             </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/relative_header">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/confirm_items"
-                android:paddingLeft="@dimen/padding_horizontal"
-                android:paddingRight="@dimen/padding_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!--TODO: Rewards -->
-
-            <!-- TODO: Tax Area -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/confirm_items"/>
-
-        </RelativeLayout>
-
         </RelativeLayout>
 
     </ScrollView>
 
+    <!-- Bottom Bar -->
     <RelativeLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/white_grey_border_top"
-        android:theme="@style/PaddedRelativeLayout">
+        style="@style/PaddedRelativeLayout">
 
         <Spinner
             android:id="@+id/confirm_payment"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:prompt="@string/fragment_payment"/>
 
+        <!-- Total -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_payment"
-            android:theme="@style/NoPaddingLayout">
+            android:layout_below="@+id/confirm_payment">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 style="@style/AppTheme.Header"
                 android:text="@string/total"/>
 
@@ -108,18 +143,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 style="@style/AppTheme.Header"
                 android:text="$3.50"/>
         </RelativeLayout>
 
-
     </RelativeLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_bar"
-        app:layout_anchorGravity="top|right|end"
+        app:layout_anchorGravity="end|right|end"
         style="@style/AppTheme.NextFloatButton"/>
 
 </android.support.design.widget.CoordinatorLayout>

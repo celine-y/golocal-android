@@ -2,9 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/padding_vertical"
     android:theme="@style/AppTheme.Dark">
 
-    <include layout="@layout/layout_profile"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ProfileHeaderRelativeLayout">
+
+        <include
+            layout="@layout/layout_profile_min"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

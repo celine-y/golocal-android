@@ -16,13 +16,13 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import yau.celine.golocal.R;
-import yau.celine.golocal.utils.objects.MenuItem;
+import yau.celine.golocal.utils.objects.ItemObject;
 import yau.celine.golocal.utils.interfaces.OnItemClickListener;
 
 public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapter.MenuItemRowHolder> {
     private static final String TAG = "ItemListDataAdapter";
 
-    private ArrayList<MenuItem> itemsList;
+    private ArrayList<ItemObject> itemsList;
     private Context mContext;
 
     private OnItemClickListener mListener;
@@ -31,7 +31,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
         mListener = listener;
     }
 
-    public ItemListDataAdapter(Context context, ArrayList<MenuItem> itemsList) {
+    public ItemListDataAdapter(Context context, ArrayList<ItemObject> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -47,7 +47,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
     @Override
     public void onBindViewHolder(MenuItemRowHolder holder, int i) {
         Log.d(TAG, "onBindViewHolder: called");
-        MenuItem singleItem = itemsList.get(i);
+        ItemObject singleItem = itemsList.get(i);
 
 
         holder.itemName.setText(singleItem.getName());
@@ -75,7 +75,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
 
         protected TextView itemName;
         protected CircleImageView itemImage;
-        protected MenuItem item;
+        protected ItemObject item;
 
 
         public MenuItemRowHolder(View view) {

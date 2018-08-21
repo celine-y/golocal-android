@@ -3,36 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="@dimen/padding_horizontal"
-    android:paddingLeft="@dimen/padding_horizontal"
-    android:paddingTop="@dimen/padding_vertical"
-    android:paddingBottom="@dimen/padding_vertical">
+    style="@style/ProfileHeaderRelativeLayout">
 
-    <RelativeLayout
-        android:id="@+id/profile_name_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <!-- Thumbnail Image -->
-        <ImageView
-            android:id="@+id/profile_thumbnail"
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
-            android:layout_marginRight="@dimen/margin_right_image"
-            android:background="@color/lightBrown"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"/>
-
-        <!-- Name -->
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/profile_thumbnail"
-            android:layout_toRightOf="@+id/profile_thumbnail"
-            android:layout_toEndOf="@+id/profile_thumbnail"
-            android:textSize="@dimen/title"/>
-    </RelativeLayout>
+    <include
+        layout="@layout/layout_profile_min"/>
 
     <RelativeLayout
         android:layout_below="@+id/profile_name_wrapper"
@@ -40,22 +14,64 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <!-- Favorite Count -->
-        <TextView
-            android:id="@+id/profile_fav"
+        <LinearLayout
+            android:id="@+id/fav_layout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_favorite"
-            android:textSize="@dimen/p1"/>
+            android:layout_height="wrap_content">
 
-        <!-- Photo Count -->
-        <TextView
-            android:id="@+id/profile_photo"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite"/>
+
+            <!-- Favorite Count -->
+            <TextView
+                android:id="@+id/profile_fav_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_right_image"
+                android:layout_marginStart="@dimen/margin_right_image"
+                android:textSize="@dimen/p1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/p1"
+                android:layout_marginLeft="@dimen/p3"
+                android:layout_marginStart="@dimen/p3"
+                android:text="@string/favorites"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_fav"
-            android:drawableLeft="@drawable/ic_photo_camera_white"
-            android:textSize="@dimen/p1"/>
+            android:layout_below="@+id/fav_layout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_photo_camera"/>
+
+            <!-- Photo Count -->
+            <TextView
+                android:id="@+id/profile_photo_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_right_image"
+                android:layout_marginStart="@dimen/margin_right_image"
+                android:text="12"
+                android:textSize="@dimen/p1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/p1"
+                android:layout_marginLeft="@dimen/p3"
+                android:layout_marginStart="@dimen/p3"
+                android:text="@string/photos"/>
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

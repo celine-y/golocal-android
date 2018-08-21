@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yau.celine.golocal.app.VolleySingleton;
-import yau.celine.golocal.utils.SharedPrefManager;
+import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.objects.User;
 
@@ -108,14 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 hideProgress();
                 if (response.has("key")) {
                     try {
-                        JSONObject userObject = response.getJSONObject("user");
-                        User user = new User(
-                                userObject.getInt("id"),
-                                response.getString("key"),
-                                userObject.getString("username"),
-                                userObject.getString("full_name"),
-                                userObject.getString("profile_image")
-                        );
+                        User user = new User(response);
 //                        store user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 

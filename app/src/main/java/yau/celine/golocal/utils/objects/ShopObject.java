@@ -12,25 +12,22 @@ import org.json.JSONObject;
  * Created by Celine on 2018-06-11.
  */
 
-public class ShopItem implements Parcelable {
+public class ShopObject implements Parcelable {
     private int id;
     private String name;
     private String thumbnailUrl = "";
     private ShopDetails shopDetails;
 
+    public ShopObject(){}
 
-    public ShopItem(JSONObject obj) {
-        try {
-            this.id = obj.getInt("id");
-            this.name = obj.getString("name");
-            this.thumbnailUrl = obj.getString("cover_image");
-            this.shopDetails = new ShopDetails(obj.getJSONObject("place"));
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
+    public ShopObject(JSONObject obj) throws JSONException {
+        this.id = obj.getInt("id");
+        this.name = obj.getString("name");
+        this.thumbnailUrl = obj.getString("cover_image");
+        this.shopDetails = new ShopDetails(obj.getJSONObject("place"));
     }
 
-    public ShopItem(Parcel in) {
+    public ShopObject(Parcel in) {
         id = in.readInt();
         name = in.readString();
         shopDetails = in.readParcelable(ShopDetails.class.getClassLoader());
@@ -112,6 +109,9 @@ public class ShopItem implements Parcelable {
         return shopDetails.getPhoneNumber();
     }
 
+    public ShopDetails getShopDetails() {
+        return shopDetails;
+    }
 
     @Override
     public int describeContents() {
@@ -128,17 +128,17 @@ public class ShopItem implements Parcelable {
     }
 
 //    CREATOR - used when un-parceling
-    public static final Parcelable.Creator<ShopItem> CREATOR
-        = new Parcelable.Creator<ShopItem>() {
+    public static final Parcelable.Creator<ShopObject> CREATOR
+        = new Parcelable.Creator<ShopObject>() {
 
-    @Override
-    public ShopItem createFromParcel(Parcel parcel) {
-        return new ShopItem(parcel);
-    }
+        @Override
+        public ShopObject createFromParcel(Parcel parcel) {
+            return new ShopObject(parcel);
+        }
 
-    @Override
-    public ShopItem[] newArray(int i) {
-        return new ShopItem[0];
-    }
-};
+        @Override
+        public ShopObject[] newArray(int i) {
+            return new ShopObject[0];
+        }
+    };
 }

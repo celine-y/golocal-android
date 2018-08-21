@@ -11,34 +11,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import yau.celine.golocal.app.CartSingleton;
-import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.interfaces.CartChangeCallback;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.objects.OrderItemObject;
 import yau.celine.golocal.utils.objects.ShopDetails;
 import yau.celine.golocal.utils.adapters.OrderItemAdapter;
-import yau.celine.golocal.utils.objects.OrderMenuItem;
-import yau.celine.golocal.utils.SharedPrefManager;
-import yau.celine.golocal.utils.URLs;
 
 public class OrderFragment extends Fragment implements
         CartChangeCallback{
@@ -72,6 +57,7 @@ public class OrderFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        disable drawer
         mIMainActivity.lockDrawerBottom();
 
         if (view == null) {
@@ -102,7 +88,7 @@ public class OrderFragment extends Fragment implements
         setHeaderCartNumber(CartSingleton.getInstance().getOrderSize());
 
 //        display shop info
-        if (CartSingleton.getInstance().getShopId() >= 0) {
+        if (CartSingleton.getInstance().getShop() != null) {
             getShopAddress();
         }
     }
@@ -140,49 +126,11 @@ public class OrderFragment extends Fragment implements
         });
     }
 
-    private void enableContinueButton() {
-        mContinueButton = view.findViewById(R.id.order_pay);
-    }
-
     private void getShopAddress() {
+        mShopName = CartSingleton.getInstance().getShop().getName();
+        mShopDetails = CartSingleton.getInstance().getShop().getShopDetails();
 
-        String shopUrl = URLs.getShopLocationUrl(CartSingleton.getInstance().getShopId());
-        JsonObjectRequest shopLocReq = new JsonObjectRequest(Request.Method.GET, shopUrl,
-                null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
-
-                if (!response.has("error")) {
-                    try {
-                        mShopName = response.getString("name");
-                        mShopDetails = new ShopDetails(response.getJSONObject("place"));
-//                        display details once available
-                        showShopDetails();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: "+error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                String token = SharedPrefManager
-                        .getInstance(getActivity().getApplicationContext()).getKeyToken();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                headers.put("Authorization", "Token "+ token);
-
-                return headers;
-            }
-        };
-
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(shopLocReq);
+        showShopDetails();
     }
 
     private void showOrderListRecycler(){
@@ -193,7 +141,7 @@ public class OrderFragment extends Fragment implements
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext,
                 DividerItemDecoration.VERTICAL));
 //        set Adapter
-        ArrayList<OrderMenuItem> itemList = CartSingleton.getInstance().getCartItemList();
+        ArrayList<OrderItemObject> itemList = CartSingleton.getInstance().getCartItemList();
         mOrderItemAdapter = new OrderItemAdapter(mContext, itemList);
         mOrderItemAdapter.setCartChangeCallbackListener(this);
         mRecyclerView.setAdapter(mOrderItemAdapter);
@@ -216,6 +164,7 @@ public class OrderFragment extends Fragment implements
             mShopAddress.setText("");
             mShopAddress.setEnabled(false);
             hideContinueButton();
+            CartSingleton.getInstance().resetCart();
         }
     }
 
@@ -229,7 +178,6 @@ public class OrderFragment extends Fragment implements
             }
         });
 
-        showContinueButton();
 
         if (CartSingleton.getInstance().getOrderSize() > 0) {
             showContinueButton();
