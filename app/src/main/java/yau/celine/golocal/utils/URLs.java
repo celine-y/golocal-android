@@ -51,4 +51,7 @@ public class URLs {
     public static String toggleFavItem (int itemId) {
         return URL_ITEM_LIST + String.valueOf(itemId) + "/favorite";
     }
+
+    //    ORDER URL
+    public static final String URL_ORDER = ROOT_URL + "orders/";
 }
