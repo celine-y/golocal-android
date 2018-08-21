@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import yau.celine.golocal.app.CartSingleton;
 import yau.celine.golocal.app.ConfirmOrderCalculator;
@@ -37,6 +44,7 @@ public class ConfirmOrderFragment extends Fragment {
     private ConfirmOrderItemAdapter mConfirmOrderAdapter;
 
     private TextView totalAmount;
+    private FloatingActionButton paymentButton;
 
     @Override
     public void onAttach(Context context) {
@@ -69,6 +77,9 @@ public class ConfirmOrderFragment extends Fragment {
 
 //            TODO: fix total info
             showTotalInfo();
+
+//            clicking on next button
+            setConfirmPaymentButton();
         }
 
 
@@ -146,5 +157,48 @@ public class ConfirmOrderFragment extends Fragment {
         ConfirmOrderCalculator calculator = new ConfirmOrderCalculator();
 
         totalAmount.setText(calculator.getFormattedTotal());
+    }
+
+    private void setConfirmPaymentButton() {
+        paymentButton = view.findViewById(R.id.confirm_order_pay);
+
+        paymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JSONObject cartJson = getCartJSONParams();
+                
+            }
+        });
+    }
+
+    private JSONObject getCartJSONParams() {
+        JSONObject params = new JSONObject();
+
+        CartSingleton cart = CartSingleton.getInstance();
+
+        ShopObject shop = cart.getShop();
+        try {
+            params.put("shop", shop.getId());
+
+//            put items in json array
+            JSONArray orderitem_set = new JSONArray();
+
+            ArrayList<OrderItemObject> cartItemList = cart.getCartItemList();
+            for (int i = 0; i < cartItemList.size(); i++){
+                JSONObject itemJson = new JSONObject();
+                OrderItemObject currentOrderItem = cartItemList.get(i);
+
+                itemJson.put("item", currentOrderItem.getId());
+                itemJson.put("customization", currentOrderItem.getRequests());
+
+                orderitem_set.put(itemJson);
+            }
+
+            params.put("orderitem_set", orderitem_set);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+
+        return params;
     }
 }
