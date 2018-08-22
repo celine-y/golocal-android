@@ -12,10 +12,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +36,9 @@ import java.util.Map;
 
 import yau.celine.golocal.app.CartSingleton;
 import yau.celine.golocal.app.ConfirmOrderCalculator;
+import yau.celine.golocal.app.SharedPrefManager;
+import yau.celine.golocal.app.VolleySingleton;
+import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.adapters.ConfirmOrderItemAdapter;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
 import yau.celine.golocal.utils.objects.OrderItemObject;
@@ -165,8 +177,7 @@ public class ConfirmOrderFragment extends Fragment {
         paymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JSONObject cartJson = getCartJSONParams();
-
+                sendOrderToAPI(getCartJSONParams());
             }
         });
     }
@@ -200,5 +211,35 @@ public class ConfirmOrderFragment extends Fragment {
         }
 
         return params;
+    }
+
+    private void sendOrderToAPI(JSONObject cartJson) {
+        JsonObjectRequest orderJsonRequest = new JsonObjectRequest(Request.Method.POST,
+                URLs.URL_ORDER, cartJson, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                if (!response.has("error")) {
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: "+ error.getMessage());
+                Toast.makeText(mContext, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = SharedPrefManager
+                        .getInstance(getActivity().getApplicationContext()).getHeaders();
+
+                return headers;
+            }
+        };
+
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(orderJsonRequest);
     }
 }

@@ -44,13 +44,16 @@
 
     <style name="AppTheme.Title" parent="@style/Base.TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/darkest</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="AppTheme.Title.Color" parent="@style/Base.TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/lightBrown</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="AppTheme.Title.Light" parent="@style/Base.TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/lightest</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 

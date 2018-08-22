@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/order_id_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Header2"
+            android:text="@string/order_id"/>
+
+        <TextView
+            android:id="@+id/order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_right_image"
+            android:layout_marginStart="@dimen/margin_right_image"
+            style="@style/AppTheme.Header"
+            android:text="12"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/order_created_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_id_wrapper">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Header2"
+            android:text="@string/order_date"/>
+
+        <TextView
+            android:id="@+id/order_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_right_image"
+            android:layout_marginLeft="@dimen/margin_right_image"
+            style="@style/AppTheme.Header"
+            android:text="12/10/2020"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_created_wrapper">
+
+        <include
+            android:id="@+id/loadingPanel"
+            layout="@layout/loading_panel"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ordered_item_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

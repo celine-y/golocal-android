@@ -72,4 +72,8 @@
     <string name="cannot_add_to_cart">The item you added does not belong to the same shop as your other items</string>
     <!-- Confirm Order -->
     <string name="tax">Tax</string>
+    <!-- Paid Order -->
+    <string name="thanks_for_order">Thank you for your order!</string>
+    <string name="order_id">Your purchase ID:</string>
+    <string name="order_date">Order date:</string>
 </resources>

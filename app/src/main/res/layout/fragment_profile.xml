@@ -9,26 +9,26 @@
         android:layout_height="wrap_content"
         layout="@layout/layout_profile"/>
 
-        <RelativeLayout
-            android:id="@+id/profile_body_layout"
+    <RelativeLayout
+        android:id="@+id/profile_body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_header">
+
+        <include
+            android:id="@+id/loadingPanel"
+            layout="@layout/loading_panel"/>
+
+        <!-- Favourites -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/profile_favorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_header">
+            style="@style/ItemRecyclerView"/>
 
-            <include
-                android:id="@+id/loadingPanel"
-                layout="@layout/loading_panel"/>
+        <!-- Photos -->
 
-            <!-- Favourites -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/profile_favorites"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ItemRecyclerView"/>
-
-            <!-- Photos -->
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout
