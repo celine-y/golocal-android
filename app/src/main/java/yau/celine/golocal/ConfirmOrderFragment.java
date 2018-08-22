@@ -166,7 +166,7 @@ public class ConfirmOrderFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 JSONObject cartJson = getCartJSONParams();
-                
+
             }
         });
     }
