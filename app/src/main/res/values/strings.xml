@@ -36,6 +36,7 @@
     <string name="fragment_shop_details">Shop Details</string>
     <string name="fragment_item_details">Item Details</string>
     <string name="fragment_confirm_order">Confirm Order</string>
+    <string name="fragment_placed_order">Placed Order</string>
 
     <!-- Menu Strings -->
     <string name="search_menu">Search for a location</string>
@@ -76,4 +77,5 @@
     <string name="thanks_for_order">Thank you for your order!</string>
     <string name="order_id">Your purchase ID:</string>
     <string name="order_date">Order date:</string>
+    <string name="continue_to_orders">All Orders</string>
 </resources>

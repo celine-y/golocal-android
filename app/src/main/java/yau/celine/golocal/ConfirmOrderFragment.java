@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,7 @@ import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.adapters.ConfirmOrderItemAdapter;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.objects.ItemObject;
 import yau.celine.golocal.utils.objects.OrderItemObject;
 import yau.celine.golocal.utils.objects.ShopDetails;
 import yau.celine.golocal.utils.objects.ShopObject;
@@ -221,7 +223,24 @@ public class ConfirmOrderFragment extends Fragment {
                 Log.d(TAG, response.toString());
 
                 if (!response.has("error")) {
+                    CartSingleton.getInstance().resetCart();
 
+                    ArrayList objectsPassedToFragment = new ArrayList();
+
+                    try {
+                        JSONArray itemsOrdered = response.getJSONArray("orderitem_set");
+
+                        for (int i = 0; i < itemsOrdered.length(); i++){
+                        }
+
+                        objectsPassedToFragment.add(response.getInt("id"));
+                        objectsPassedToFragment.add(response.getString("created_at"));
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    mIMainActivity.inflateFragment(getString(R.string.fragment_placed_order),
+                            objectsPassedToFragment);
                 }
             }
         }, new Response.ErrorListener() {

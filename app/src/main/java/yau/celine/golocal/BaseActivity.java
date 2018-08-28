@@ -250,6 +250,8 @@ public class BaseActivity extends AppCompatActivity
             ConfirmOrderFragment fragment = new ConfirmOrderFragment();
             doFragmentTransaction(fragment, fragmentTag,
                     true, message, false);
+        } else if (fragmentTag.equals(getString(R.string.fragment_history))) {
+//            TODO: open fragment_history
         }
     }
 
@@ -263,6 +265,10 @@ public class BaseActivity extends AppCompatActivity
         if (fragmentTag.equals(getString(R.string.fragment_item_details))) {
             ItemFragment fragment = new ItemFragment();
             mBottomNavigation.setCurrentItem(AHBottomNavigation.CURRENT_ITEM_NONE);
+            doFragmentTransaction(fragment, fragmentTag,
+                    true, objects, false);
+        } else if (fragmentTag.equals(getString(R.string.fragment_placed_order))) {
+            PaidOrderFragment fragment = new PaidOrderFragment();
             doFragmentTransaction(fragment, fragmentTag,
                     true, objects, false);
         }
