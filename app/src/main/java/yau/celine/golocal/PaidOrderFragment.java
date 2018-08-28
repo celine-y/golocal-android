@@ -6,14 +6,20 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import yau.celine.golocal.utils.interfaces.IMainActivity;
 
@@ -34,6 +40,7 @@ public class PaidOrderFragment extends Fragment {
         mContext = context;
 
         mIMainActivity = (IMainActivity) getActivity();
+
     }
 
     @Override
@@ -46,7 +53,10 @@ public class PaidOrderFragment extends Fragment {
                 ArrayList objects = bundle.getParcelableArrayList(getString(R.string.intent_message));
 
                 Log.d(TAG, objects.toString());
-
+                orderId = (int) objects.get(0);
+                String dateStr = String.valueOf(objects.get(1));
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault());
+                createdDate = formatter.parse(dateStr);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
@@ -56,13 +66,15 @@ public class PaidOrderFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mIMainActivity.lockDrawer();
+//        mIMainActivity.lockDrawer();
 
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_order_paid, container, false);
 
 //            set all order button
             setAllOrderButton();
+//            show order info
+            setOrderInfo();
         }
 
         return view;
@@ -72,7 +84,7 @@ public class PaidOrderFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        mIMainActivity.unlockDrawer();
+//        mIMainActivity.unlockDrawer();
     }
 
     private void setAllOrderButton() {
@@ -83,5 +95,13 @@ public class PaidOrderFragment extends Fragment {
                 mIMainActivity.inflateFragment(getString(R.string.fragment_history), "");
             }
         });
+    }
+
+    private void setOrderInfo() {
+        TextView orderNumTextView = view.findViewById(R.id.order_id);
+        TextView orderDateTextView = view.findViewById(R.id.order_created);
+
+        orderNumTextView.setText(String.valueOf(orderId));
+        orderDateTextView.setText(createdDate.toString());
     }
 }

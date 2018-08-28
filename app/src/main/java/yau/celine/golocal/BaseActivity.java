@@ -269,6 +269,8 @@ public class BaseActivity extends AppCompatActivity
                     true, objects, false);
         } else if (fragmentTag.equals(getString(R.string.fragment_placed_order))) {
             PaidOrderFragment fragment = new PaidOrderFragment();
+            mFragmentManager.popBackStack(null,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
             doFragmentTransaction(fragment, fragmentTag,
                     true, objects, false);
         }

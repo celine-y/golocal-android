@@ -41,6 +41,7 @@ import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.adapters.ConfirmOrderItemAdapter;
+import yau.celine.golocal.utils.interfaces.CartChangeCallback;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
 import yau.celine.golocal.utils.objects.ItemObject;
 import yau.celine.golocal.utils.objects.OrderItemObject;
@@ -224,6 +225,7 @@ public class ConfirmOrderFragment extends Fragment {
 
                 if (!response.has("error")) {
                     CartSingleton.getInstance().resetCart();
+                    ((CartChangeCallback)mContext).onAddOrRemoveItem(0);
 
                     ArrayList objectsPassedToFragment = new ArrayList();
 
