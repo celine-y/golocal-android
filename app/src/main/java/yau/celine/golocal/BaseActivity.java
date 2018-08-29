@@ -251,7 +251,9 @@ public class BaseActivity extends AppCompatActivity
             doFragmentTransaction(fragment, fragmentTag,
                     true, message, false);
         } else if (fragmentTag.equals(getString(R.string.fragment_history))) {
-//            TODO: open fragment_history
+            HistoryOrderFragment fragment = new HistoryOrderFragment();
+            doFragmentTransaction(fragment, fragmentTag,
+                    true, message, false);
         }
     }
 
@@ -269,6 +271,7 @@ public class BaseActivity extends AppCompatActivity
                     true, objects, false);
         } else if (fragmentTag.equals(getString(R.string.fragment_placed_order))) {
             PaidOrderFragment fragment = new PaidOrderFragment();
+//            remove all previous fragments from backstack and go to map on back
             mFragmentManager.popBackStack(null,
                     FragmentManager.POP_BACK_STACK_INCLUSIVE);
             doFragmentTransaction(fragment, fragmentTag,
