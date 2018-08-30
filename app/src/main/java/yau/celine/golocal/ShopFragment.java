@@ -215,7 +215,7 @@ public class ShopFragment extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void onFragmentClick(Parcelable object) {
+    public void onFragmentClickPassParcelable(Parcelable object) {
         ArrayList objectsPassedToFragment = new ArrayList();
         objectsPassedToFragment.add(mShopObject);
         objectsPassedToFragment.add(object);

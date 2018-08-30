@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import yau.celine.golocal.R;
 import yau.celine.golocal.utils.objects.CategoryDataModel;
 import yau.celine.golocal.utils.interfaces.OnItemClickListener;
-import yau.celine.golocal.utils.interfaces.OnShopClickListener;
+import yau.celine.golocal.utils.interfaces.OnClickListener;
 import yau.celine.golocal.utils.objects.ShopObject;
 
 public class CategoryDataAdapter extends RecyclerView.Adapter<CategoryDataAdapter.CategoryRowHolder>
-implements OnShopClickListener {
+implements OnClickListener {
 
     private ShopObject mShop;
 

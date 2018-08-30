@@ -34,9 +34,12 @@ import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.URLs;
 import yau.celine.golocal.utils.adapters.OrderAdapter;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.interfaces.OnClickListener;
 import yau.celine.golocal.utils.objects.OrderObject;
 
-public class HistoryOrderFragment extends Fragment {
+public class HistoryOrderFragment extends Fragment implements
+        OnClickListener {
+
     private static final String TAG = "HistoryOrderFragment";
 
     private IMainActivity mIMainActivity;
@@ -90,6 +93,8 @@ public class HistoryOrderFragment extends Fragment {
 //            set adapter
             mOrderAdapter = new OrderAdapter(getContext(), mOrderList);
             mOrderRecyclerView.setAdapter(mOrderAdapter);
+//            set on click for order item
+            mOrderAdapter.setListener(this);
         }
 
         getPreviousOrders();
@@ -124,7 +129,7 @@ public class HistoryOrderFragment extends Fragment {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = SharedPrefManager
                         .getInstance(getActivity().getApplicationContext()).getHeaders();
 
@@ -133,5 +138,12 @@ public class HistoryOrderFragment extends Fragment {
         };
 
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(orderReq);
+    }
+
+    @Override
+    public void onFragmentClick(int position) {
+        String orderId = String.valueOf(mOrderList.get(position).getId());
+
+        mIMainActivity.inflateFragment(getString(R.string.fragment_order_details), orderId);
     }
 }

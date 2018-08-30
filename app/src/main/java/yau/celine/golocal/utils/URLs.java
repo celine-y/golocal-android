@@ -55,4 +55,7 @@ public class URLs {
     //    ORDER URL
     public static final String URL_ORDER = ROOT_URL + "orders/";
     public static final String URL_ORDER_LIST = URL_ORDER + "?omit=orderitem_set,customer";
+    public static String getOrderUrl(int orderId) {
+        return URL_ORDER + String.valueOf(orderId) + "/";
+    }
 }

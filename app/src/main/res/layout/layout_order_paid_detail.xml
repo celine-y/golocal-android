@@ -18,10 +18,10 @@
             android:id="@+id/loadingPanel"
             layout="@layout/loading_panel"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ordered_item_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/ordered_item_recyclerview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
     </RelativeLayout>
 

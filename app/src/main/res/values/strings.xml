@@ -37,6 +37,7 @@
     <string name="fragment_item_details">Item Details</string>
     <string name="fragment_confirm_order">Confirm Order</string>
     <string name="fragment_placed_order">Placed Order</string>
+    <string name="fragment_order_details">Order Details</string>
 
     <!-- Menu Strings -->
     <string name="search_menu">Search for a location</string>
@@ -82,4 +83,5 @@
     <string name="incomplete_order">Your order is being made.</string>
     <string name="shop">Shop:</string>
     <string name="continue_to_orders">All Orders</string>
+
 </resources>

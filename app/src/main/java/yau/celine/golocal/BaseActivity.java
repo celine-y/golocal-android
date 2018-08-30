@@ -251,7 +251,9 @@ public class BaseActivity extends AppCompatActivity
             doFragmentTransaction(fragment, fragmentTag,
                     true, message, false);
         } else if (fragmentTag.equals(getString(R.string.fragment_history))) {
-            HistoryOrderFragment fragment = new HistoryOrderFragment();
+            loadHistoryOrderFragment();
+        } else if (fragmentTag.equals(getString(R.string.fragment_order_details))) {
+            OrderDetailFragment fragment = new OrderDetailFragment();
             doFragmentTransaction(fragment, fragmentTag,
                     true, message, false);
         }
@@ -349,7 +351,7 @@ public class BaseActivity extends AppCompatActivity
                     loadCurrentOrderFragment();
                     break;
                 case R.id.nav_history:
-//                TODO: link to history fragment
+                    loadHistoryOrderFragment();
                     break;
                 case R.id.nav_rewards:
 //                TODO: link to rewards fragment
@@ -409,6 +411,12 @@ public class BaseActivity extends AppCompatActivity
         OrderFragment orderFragment = new OrderFragment();
         doFragmentTransaction(orderFragment, getString(R.string.fragment_current_order),
                 true, "", true);
+    }
+
+    private void loadHistoryOrderFragment() {
+        HistoryOrderFragment fragment = new HistoryOrderFragment();
+        doFragmentTransaction(fragment, getString(R.string.fragment_history),
+                true, "", false);
     }
 
     /**
