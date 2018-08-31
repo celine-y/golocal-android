@@ -36,6 +36,8 @@
     <string name="fragment_shop_details">Shop Details</string>
     <string name="fragment_item_details">Item Details</string>
     <string name="fragment_confirm_order">Confirm Order</string>
+    <string name="fragment_placed_order">Placed Order</string>
+    <string name="fragment_order_details">Order Details</string>
 
     <!-- Menu Strings -->
     <string name="search_menu">Search for a location</string>
@@ -72,4 +74,16 @@
     <string name="cannot_add_to_cart">The item you added does not belong to the same shop as your other items</string>
     <!-- Confirm Order -->
     <string name="tax">Tax</string>
+    <!-- Paid Order -->
+    <string name="thanks_for_order">Thank you for your order!</string>
+    <string name="please_visit">Pick up your order at</string>
+    <string name="order_id">Order ID:</string>
+    <string name="order_date">Order date:</string>
+    <string name="status">Status:</string>
+    <string name="completed_order">Completed</string>
+    <string name="incomplete_order">Processing</string>
+    <string name="shop">Shop:</string>
+    <string name="continue_to_orders">All Orders</string>
+    <string name="ordered_items">Items:</string>
+
 </resources>

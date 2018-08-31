@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -66,7 +65,7 @@ import java.util.Map;
 
 import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
-import yau.celine.golocal.utils.interfaces.OnShopClickListener;
+import yau.celine.golocal.utils.interfaces.OnClickListener;
 import yau.celine.golocal.app.SharedPrefManager;
 import yau.celine.golocal.utils.adapters.ShopAdapter;
 import yau.celine.golocal.utils.objects.ShopObject;
@@ -80,7 +79,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class SearchFragment extends Fragment implements
-        OnShopClickListener,
+        OnClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener {

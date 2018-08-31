@@ -196,7 +196,7 @@ public class ProfileFragment extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void onFragmentClick(Parcelable item) {
+    public void onFragmentClickPassParcelable(Parcelable item) {
         openItemFragment((ItemObject)item);
     }
 

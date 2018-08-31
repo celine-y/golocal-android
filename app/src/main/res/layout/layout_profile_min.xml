@@ -2,7 +2,8 @@
 <RelativeLayout android:id="@+id/profile_name_wrapper"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Thumbnail Image -->
     <ImageView
@@ -22,5 +23,6 @@
         android:layout_alignTop="@+id/profile_thumbnail"
         android:layout_toRightOf="@+id/profile_thumbnail"
         android:layout_toEndOf="@+id/profile_thumbnail"
-        android:textSize="@dimen/title"/>
+        android:textSize="@dimen/title"
+        tools:text="Full Name"/>
 </RelativeLayout>

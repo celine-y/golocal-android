@@ -250,6 +250,12 @@ public class BaseActivity extends AppCompatActivity
             ConfirmOrderFragment fragment = new ConfirmOrderFragment();
             doFragmentTransaction(fragment, fragmentTag,
                     true, message, false);
+        } else if (fragmentTag.equals(getString(R.string.fragment_history))) {
+            loadHistoryOrderFragment();
+        } else if (fragmentTag.equals(getString(R.string.fragment_order_details))) {
+            OrderDetailFragment fragment = new OrderDetailFragment();
+            doFragmentTransaction(fragment, fragmentTag,
+                    true, message, false);
         }
     }
 
@@ -263,6 +269,13 @@ public class BaseActivity extends AppCompatActivity
         if (fragmentTag.equals(getString(R.string.fragment_item_details))) {
             ItemFragment fragment = new ItemFragment();
             mBottomNavigation.setCurrentItem(AHBottomNavigation.CURRENT_ITEM_NONE);
+            doFragmentTransaction(fragment, fragmentTag,
+                    true, objects, false);
+        } else if (fragmentTag.equals(getString(R.string.fragment_placed_order))) {
+            PaidOrderFragment fragment = new PaidOrderFragment();
+//            remove all previous fragments from backstack and go to map on back
+            mFragmentManager.popBackStack(null,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
             doFragmentTransaction(fragment, fragmentTag,
                     true, objects, false);
         }
@@ -338,7 +351,7 @@ public class BaseActivity extends AppCompatActivity
                     loadCurrentOrderFragment();
                     break;
                 case R.id.nav_history:
-//                TODO: link to history fragment
+                    loadHistoryOrderFragment();
                     break;
                 case R.id.nav_rewards:
 //                TODO: link to rewards fragment
@@ -398,6 +411,12 @@ public class BaseActivity extends AppCompatActivity
         OrderFragment orderFragment = new OrderFragment();
         doFragmentTransaction(orderFragment, getString(R.string.fragment_current_order),
                 true, "", true);
+    }
+
+    private void loadHistoryOrderFragment() {
+        HistoryOrderFragment fragment = new HistoryOrderFragment();
+        doFragmentTransaction(fragment, getString(R.string.fragment_history),
+                true, "", false);
     }
 
     /**

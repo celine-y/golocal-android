@@ -20,16 +20,16 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import yau.celine.golocal.R;
-import yau.celine.golocal.utils.interfaces.OnShopClickListener;
+import yau.celine.golocal.utils.interfaces.OnClickListener;
 import yau.celine.golocal.utils.objects.ShopObject;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     private Context mContext;
     private ArrayList<ShopObject> mShopList;
-    private OnShopClickListener mListener;
+    private OnClickListener mListener;
     private int mSelectedItemPosition;
 
-    public void setListener (OnShopClickListener listener) {
+    public void setListener (OnClickListener listener) {
         mListener = listener;
     }
 
@@ -46,7 +46,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
     @NonNull
     @Override
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_shop, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_shop, parent,
+                false);
         return new ShopViewHolder(v);
     }
 

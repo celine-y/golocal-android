@@ -89,7 +89,7 @@ public class ItemListDataAdapter extends RecyclerView.Adapter<ItemListDataAdapte
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "MenuItemRowHolder.onClick: called. "+item);
-                    mListener.onFragmentClick(item);
+                    mListener.onFragmentClickPassParcelable(item);
                 }
             });
 

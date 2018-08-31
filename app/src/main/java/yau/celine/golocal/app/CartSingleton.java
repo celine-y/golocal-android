@@ -56,6 +56,7 @@ public class CartSingleton {
     public void resetCart() {
         this.cartItemList.clear();
         this.mShop = null;
+
     }
 
     public int getOrderSize() {

@@ -21,21 +21,22 @@
     <!-- Text Styles -->
     <style name="AppTheme.Header" parent="@style/Base.TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/darkest</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.Header.Light" parent="@style/Base.TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/lightest</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.Header.Color" parent="@style/Base.TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/lightBrown</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.Header2" parent="Base.TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/darkest</item>
+    </style>
+
+    <style name="AppTheme.Header2.Color" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/lightBrown</item>
     </style>
 
     <style name="AppTheme.Header2.Light" parent="Base.TextAppearance.AppCompat.Medium">
@@ -44,13 +45,16 @@
 
     <style name="AppTheme.Title" parent="@style/Base.TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/darkest</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="AppTheme.Title.Color" parent="@style/Base.TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/lightBrown</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="AppTheme.Title.Light" parent="@style/Base.TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/lightest</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 

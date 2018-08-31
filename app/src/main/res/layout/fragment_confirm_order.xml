@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -10,7 +11,7 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <!-- Header -->
             <RelativeLayout
@@ -26,21 +27,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AppTheme.Header.Light"
-                    android:text="Name of Store"/>
+                    tools:text="Name of Store"/>
                 <TextView
                     android:id="@+id/confirm_store_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/confirm_store_name"
                     style="@style/AppTheme.Header2.Light"
-                    android:text="123 Address St, Aurora, Ontario, Canada"/>
+                    tools:text="123 Address St, Aurora, Ontario, Canada"/>
                 <TextView
                     android:id="@+id/confirm_store_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/confirm_store_address"
                     style="@style/AppTheme.Body.Light"
-                    android:text="9057131622"/>
+                    tools:text="9057131622"/>
             </RelativeLayout>
 
             <!-- Order Details -->
@@ -144,8 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                style="@style/AppTheme.Header"
-                android:text="$3.50"/>
+                style="@style/AppTheme.Header"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -154,6 +154,7 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/confirm_order_pay"
         app:layout_anchor="@id/bottom_bar"
         app:layout_anchorGravity="end|right|end"
         style="@style/AppTheme.NextFloatButton"/>

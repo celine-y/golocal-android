@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,12 +46,13 @@
                         android:textAppearance="@style/AppTheme.Title.Light"
                         android:gravity="center_horizontal"
                         android:shadowRadius="50"
-                        android:shadowColor="@color/darkest"/>
+                        android:shadowColor="@color/darkest"
+                        tools:text="Shop Name"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/shop_description_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:theme="@style/CenterJustifyLinearLayout"
@@ -61,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAppearance="@style/AppTheme.Caption.Light"
-                        android:text="Description selfanas asfasdf asdfasdf asdfasdf asdf asdf jwolasdf esijasfasf asdfas amfolwisejmf.....!"/>
+                        tools:text="Description ...!"/>
                 </LinearLayout>
 
             </RelativeLayout>
