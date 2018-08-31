@@ -43,6 +43,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.mOrderId.setText(String.valueOf(order.getId()));
         holder.mCreatedDate.setText(order.getCreatedDateString());
         holder.mShop.setText(order.getShop().getName());
+
+        if (order.getCompleted()) {
+            holder.mCompleted.setText(mContext.getString(R.string.completed_order));
+        } else {
+            holder.mCompleted.setText(mContext.getString(R.string.incomplete_order));
+        }
     }
 
     @Override
@@ -62,6 +68,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             mOrderId = orderView.findViewById(R.id.order_id);
             mCreatedDate = orderView.findViewById(R.id.order_created);
             mShop = orderView.findViewById(R.id.order_shop);
+            mCompleted = orderView.findViewById(R.id.order_status);
 
             orderView.setOnClickListener(new View.OnClickListener() {
                 @Override

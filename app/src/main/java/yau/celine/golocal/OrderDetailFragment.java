@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +24,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import yau.celine.golocal.app.SharedPrefManager;
+import yau.celine.golocal.app.VolleySingleton;
 import yau.celine.golocal.utils.URLs;
+import yau.celine.golocal.utils.adapters.ConfirmOrderItemAdapter;
 import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.objects.OrderItemObject;
 import yau.celine.golocal.utils.objects.OrderObject;
 
 public class OrderDetailFragment extends Fragment {
@@ -104,9 +111,33 @@ public class OrderDetailFragment extends Fragment {
                 return headers;
             }
         };
+
+        VolleySingleton.getInstance(mContext).addToRequestQueue(orderReq);
     }
 
     private void setOrderDetailView(OrderObject order) {
-//        TODO: setOrderDetailView
+        TextView orderIdTextView = view.findViewById(R.id.order_id);
+        TextView orderCreatedTextView = view.findViewById(R.id.order_created);
+        TextView orderStatusTextView = view.findViewById(R.id.order_status);
+        TextView orderShopTextView = view.findViewById(R.id.order_shop);
+
+        orderIdTextView.setText(String.valueOf(order.getId()));
+        orderCreatedTextView.setText(order.getCreatedDateString());
+        if (order.getCompleted()) {
+            orderStatusTextView.setText(getString(R.string.completed_order));
+        } else {
+            orderStatusTextView.setText(getString(R.string.incomplete_order));
+        }
+        orderShopTextView.setText(order.getShop().getName());
+
+//        set recyclerview for ordered items
+        RecyclerView itemsOrderedView = view.findViewById(R.id.order_item_recyclerview);
+        itemsOrderedView.setHasFixedSize(true);
+        itemsOrderedView.setLayoutManager(new LinearLayoutManager(mContext));
+        itemsOrderedView.addItemDecoration(new DividerItemDecoration(mContext,
+                DividerItemDecoration.VERTICAL));
+        ConfirmOrderItemAdapter confirmOrderItemAdapter = new ConfirmOrderItemAdapter(mContext,
+                order.getOrderItemList());
+        itemsOrderedView.setAdapter(confirmOrderItemAdapter);
     }
 }

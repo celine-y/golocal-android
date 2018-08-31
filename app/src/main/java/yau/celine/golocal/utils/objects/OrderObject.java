@@ -33,6 +33,7 @@ public class OrderObject {
             updatedDate = new Date();
         }
         this.isCompleted = obj.getBoolean("completed");
+        mOrderItemList = new ArrayList<>();
     }
 
     private Date parseDateString(String dateStr) throws Exception {
@@ -76,6 +77,10 @@ public class OrderObject {
 
             mOrderItemList.add(orderItemObject);
         }
+    }
+
+    public ArrayList<OrderItemObject> getOrderItemList() {
+        return mOrderItemList;
     }
 
 }

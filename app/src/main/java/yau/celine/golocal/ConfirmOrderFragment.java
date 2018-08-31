@@ -232,11 +232,11 @@ public class ConfirmOrderFragment extends Fragment {
                     try {
                         JSONArray itemsOrdered = response.getJSONArray("orderitem_set");
 
-                        for (int i = 0; i < itemsOrdered.length(); i++){
-                        }
+                        ShopObject shopObject = new ShopObject(response.getJSONObject("shop"));
 
                         objectsPassedToFragment.add(response.getInt("id"));
                         objectsPassedToFragment.add(response.getString("created_at"));
+                        objectsPassedToFragment.add(shopObject);
                     } catch (JSONException ex) {
                         ex.printStackTrace();
                     }

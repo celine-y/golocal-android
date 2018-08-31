@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin">
 
@@ -31,7 +32,7 @@
             style="@style/AppTheme.Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Item Name" />
+            tools:text="Item Name"/>
 
         <!-- Requests -->
         <TextView
@@ -39,7 +40,7 @@
             style="@style/AppTheme.Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Requests" />
+            tools:text="Requests"/>
 
         <!-- Price -->
         <TextView
@@ -47,7 +48,7 @@
             style="@style/AppTheme.Header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$3.00" />
+            tools:text="$3.00" />
 
     </LinearLayout>
 

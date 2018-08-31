@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import yau.celine.golocal.utils.interfaces.IMainActivity;
+import yau.celine.golocal.utils.objects.ShopObject;
 
 public class PaidOrderFragment extends Fragment {
     private static final String TAG = "PaidOrderFragment";
@@ -30,6 +31,7 @@ public class PaidOrderFragment extends Fragment {
     private Context mContext;
     private int orderId;
     private Date createdDate;
+    private ShopObject mShop;
 
     @Override
     public void onAttach(Context context) {
@@ -55,6 +57,7 @@ public class PaidOrderFragment extends Fragment {
                 String dateStr = String.valueOf(objects.get(1));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault());
                 createdDate = formatter.parse(dateStr);
+                mShop = (ShopObject) objects.get(2);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
@@ -98,8 +101,11 @@ public class PaidOrderFragment extends Fragment {
     private void setOrderInfo() {
         TextView orderNumTextView = view.findViewById(R.id.order_id);
         TextView orderDateTextView = view.findViewById(R.id.order_created);
+        TextView orderShopTextView = view.findViewById(R.id.order_shop);
 
         orderNumTextView.setText(String.valueOf(orderId));
         orderDateTextView.setText(createdDate.toString());
+//        add space before shop name so that it does not merge into sentence before
+        orderShopTextView.setText(" " + mShop.getName());
     }
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin">
 
@@ -24,7 +25,7 @@
                 style="@style/AppTheme.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item Name" />
+                tools:text="Item Name" />
 
             <!-- Requests -->
             <TextView
@@ -33,7 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin" />
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                tools:text="Item requests"/>
         </LinearLayout>
 
         <TextView
@@ -41,6 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            tools:text="$3.00"
             style="@style/AppTheme.Header"/>
     </RelativeLayout>
 

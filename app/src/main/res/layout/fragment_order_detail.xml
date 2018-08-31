@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/order_paid_header"
@@ -8,10 +11,22 @@
         android:layout_width="match_parent"
         layout="@layout/layout_history_order"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/order_paid_header"
-        android:id="@+id/ordered_item_recyclerview"
+    <LinearLayout
+        android:orientation="vertical"
+        style="@style/PaddedRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Header2"
+            android:text="@string/ordered_items"/>
 
-</RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_item_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

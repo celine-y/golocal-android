@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     style="@style/PaddedRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <include
-        android:id="@+id/order_paid_header"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        layout="@layout/layout_order_header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,10 +22,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_right_image"
             android:layout_marginLeft="@dimen/margin_right_image"
-            style="@style/AppTheme.Header"
-            android:text="@string/incomplete_order"/>
+            style="@style/AppTheme.Header2"
+            tools:text="@string/incomplete_order"/>
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/order_paid_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_order_header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_right_image"
             android:layout_marginLeft="@dimen/margin_right_image"
-            style="@style/AppTheme.Header"/>
+            style="@style/AppTheme.Header2"
+            tools:text="Shop Name"/>
 
     </LinearLayout>
 

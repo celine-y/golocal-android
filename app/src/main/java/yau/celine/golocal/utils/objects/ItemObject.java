@@ -7,13 +7,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ItemObject implements Parcelable {
-    private int id;
+    private int id = 0;
     private String name;
     private String description;
     private int shopId;
-    private double price;
+    private double price = 0.00;
     private String imageUrl;
-    private boolean userFav;
+    private boolean userFav = false;
 
     public ItemObject() {}
 
